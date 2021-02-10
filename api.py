@@ -513,8 +513,8 @@ def testUpload():
 
 #COTDcompIDList = COTDcompIDList #Latest to newest
 
-compID = getLatestFinishedcotdID()
-print(compID)
+#compID = getLatestFinishedcotdID()
+#print(compID)
 #print(COTDcompIDList[:-6:-1])
 
 #for compID in COTDcompIDList[-50::-1]:
@@ -525,7 +525,7 @@ print(compID)
     #if not(path.exists(cotdFile)):
 #GATHER INFORMTAIONS FROM TRACKMANIA.IO
        #print("Fetching results of cotd which compID is :",compID)
-totdInfo, results = getCOMPresults(compID)
+#totdInfo, results = getCOMPresults(compID)
 
 #uploadCotdJSONoutput(totdInfo,results)
 #print(getLatestFinishedcotdID())
@@ -535,21 +535,23 @@ totdInfo, results = getCOMPresults(compID)
 
 
 #CREATE ORDERED PLAYER LIST
-writeCotdJSONoutput(totdInfo, results)
+#writeCotdJSONoutput(totdInfo, results)
 
 
 #for compID in COTDcompIDList[1:5:]:
 #UPDATE EVERY SINGLE PLAYER PROFILE
-updatePlayersProfile(compID)
+#updatePlayersProfile(compID)
 
-sortAlphabeticalOrder()
+#sortAlphabeticalOrder()
     
 #sauvegarder pour l'accout ID, à chaque nouvelle cotd les pseudo correspondant aux account ID est mis à jour
 
 
-
-
-
-
-
-
+"""
+compID = getLatestFinishedcotdID()
+print(compID)
+totdInfo, results = getCOMPresults(compID)
+writeCotdJSONoutput(totdInfo, results)
+updatePlayersProfile(compID)
+sortAlphabeticalOrder()
+"""
