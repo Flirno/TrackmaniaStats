@@ -148,7 +148,7 @@ def getAllCOTDcompID():
 
 def createLatestcotdJSON():
 
-    compID = getLatestFinishedcotdID()
+    compID = str(getLatestFinishedcotdID())
     
     if not(checkFileExist(compID)):
         totdInfo, results = getCOMPresults(compID)
