@@ -481,7 +481,9 @@ def uploadCotdJSONoutput(totdInfo,playersList):
     uploadFiletoPath(str(data),path)
     
 
+def testUpload():
     
+    uploadFiletoPath("test text",'json/test.txt')
     
 #------------------------------------------CALLS------------------------------------------------------#
 

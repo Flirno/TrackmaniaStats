@@ -27,7 +27,7 @@ def hello():
 
 @app.route("/admin")
 def admin():
-    return ('<!DOCTYPE html><html><head><title>TrackmaniaStats</title></head><body><h1>Welcome to the TrackmaniaStats api</h1><p>Latest heroku deploy : '+ today + " " + str(current_time)+'</p><h2>Available admin endpoint :</h2> <p><a href="https://trackmaniastats.herokuapp.com/api/createLatestcotdJSON/<pwd>">https://trackmaniastats.herokuapp.com/api/createLatestcotdJSON/<pwd></a> get latest cotd result and upload to github ID</p> <p><a href="https://trackmaniastats.herokuapp.com/api/updatePlayers/<pwd>">https://trackmaniastats.herokuapp.com/api/updatePlayers/<pwd></a> update Player profiles ID</p> <p><a href="https://trackmaniastats.herokuapp.com/api/sortPlayerList/<pwd>">https://trackmaniastats.herokuapp.com/api/sortPlayerList/<pwd></a> Sort player list (just fun)</p> </body></html>')
+    return ('<!DOCTYPE html><html><head><title>TrackmaniaStats</title></head><body><h1>Welcome to the TrackmaniaStats api</h1><p>Latest heroku deploy : '+ today + " " + str(current_time)+'</p><h2>Available admin endpoint :</h2> <p><a href="https://trackmaniastats.herokuapp.com/api/createLatestcotdJSON/">https://trackmaniastats.herokuapp.com/api/createLatestcotdJSON/</a> get latest cotd result and upload to github ID</p> <p><a href="https://trackmaniastats.herokuapp.com/api/updatePlayers/">https://trackmaniastats.herokuapp.com/api/updatePlayers/</a> update Player profiles ID</p> <p><a href="https://trackmaniastats.herokuapp.com/api/sortPlayerList/">https://trackmaniastats.herokuapp.com/api/sortPlayerList/</a> Sort player list (just fun)</p> </body></html>')
 
 
 
@@ -96,6 +96,10 @@ def updatePlayers():
 def sortPlayerList():
     api.sortAlphabeticalOrder()
 
+
+@app.route('/api/sortPlayerList/<pwd>')
+def testUpload():
+    api.testUpload()
 
     
     
