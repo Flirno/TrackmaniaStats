@@ -146,16 +146,17 @@ def getAllCOTDcompID():
 
 
 def createLatestcotdJSON():
-    """
+
     compID = getLatestFinishedcotdID()
-       
+    """
     if not(checkFileExist(compID)):
         totdInfo, results = getCOMPresults(compID)
         #writeCotdJSONoutput(totdInfo, results)
         uploadCotdJSONoutput(totdInfo, results)
-    """
-    return("DONE, now wait for heroku to deploy new githubbranche and update player profiles")
-          
+        
+        return("DONE, now wait for heroku to deploy new githubbranche and update player profiles")
+    """   
+    
     return("cotd "+str(compID)+" already on github")
 
 
