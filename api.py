@@ -388,13 +388,13 @@ def searchPlayerByName(playerName):
     with open(fileName,'r') as json_file:
        playerList = json.load(json_file)
     
-    allPseudo = [value  for key, value  in playerList.items() if playerName in key.lower()]
+    allPseudo = [value  for key, value  in playerList.items() if playerName in key]
     playerID = []
     
     for pseudo in allPseudo:
-        playerID += [[pseudo, playerList.get(pseudo)]]
+        playerID += [str(pseudo)+":"+str(playerList.get(pseudo))]
     
-    return playerID
+    return allPseudo
     
     """
     if playerName in playerList:
