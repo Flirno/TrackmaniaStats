@@ -13,7 +13,7 @@ app = Flask(__name__)
 @app.route("/home")
 @app.route("/index")
 def hello():
-    return render_template('/index.html')
+    return ("<!DOCTYPE html><html><head><title>TrackmaniaStats</title></head><body><h1>Welecome to the TrackmaniaStats api</h1><h2>Available endpoint :</h2></body></html>")
 
 if __name__ == "__main__":
     app.run(debug=True)
