@@ -387,13 +387,23 @@ def searchPlayerByName(playerName):
 
     with open(fileName,'r') as json_file:
        playerList = json.load(json_file)
-       
+    
+    allPseudo = [value  for key, value  in playerList.items() if playerName in key.lower()]
+    playerID = []
+    
+    for pseudo in allPseudo:
+        playerID += [[pseudo, playerList.get(pseudo)]]
+    
+    return playerID
+    
+    """
     if playerName in playerList:
         playerID = playerList.get(playerName)
     else :
         playerID = ""    
         
     return (playerID)
+    """
     
 
 def sortAlphabeticalOrder():
