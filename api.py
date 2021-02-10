@@ -107,11 +107,21 @@ def getCOTDresults(compID):
 
 def getLatestFinishedcotdID():
     cotd = getJsonFromURL("https://trackmania.io/api/cotd/0")
+    
     i=0
-    while cotd.get("competitions")[i].get("players") == 0:
+    found =  False
+    while cotd.get("competitions")[i].get("players") == 0 or found == False:
         i+=1
         
-    compID = cotd.get("competitions")[i].get("id")
+        compID = cotd.get("competitions")[i].get("id")
+        checkcotd = getJsonFromURL("https://trackmania.io/api/comp/"+ str(compID) )
+        if checkcotd.get('rounds')[0].get('matches') == []:
+            pass
+        else:
+            found = True
+    
+        #time.sleep(0.1)
+        #print(compID)
     
     return str(compID)
 
@@ -138,12 +148,13 @@ def getAllCOTDcompID():
 def createLatestcotdJSON():
        compID = getLatestFinishedcotdID()
        
-       fileName = 'json/cotd/cotd-'+ compID + '.json'
-       
-       if not(path.exists(fileName)):
+       if not(checkFileExist(compID)):
               totdInfo, results = getCOMPresults(compID)
               #writeCotdJSONoutput(totdInfo, results)
               uploadCotdJSONoutput(totdInfo, results)
+              return("DONE, now wait for heroku to deploy new githubbranche and update player profiles")
+          
+       return("cotd "+str(compID)+" already on github")
 
 
 
@@ -181,8 +192,8 @@ def updatePlayersProfile(compID):
     players = cotdJSON.get("players")
     
     
-    #today = str(date.today())
-    today = "2021-02-09"
+    today = str(date.today())
+    #today = "2021-02-09"
     
     #print("Today's date:", today)
     
@@ -390,10 +401,37 @@ def sortAlphabeticalOrder():
         json.dump(newplayerList, json_file)
     
     
+def checkFileExist(compID):
+    path = 'json/cotd/cotd-'+ compID + '.json'
+    
+    g = Github("638fd3e114fbc580bebdaa2bda81715e971dc77e")
 
+    #repo = g.get_user().get_repo('TrackmaniaStats')
+    repo = g.get_user().get_repo('pygithub-test')
+
+    all_files = []
+    contents = repo.get_contents("")
+    while contents:
+        file_content = contents.pop(0)
+        if file_content.type == "dir":
+            contents.extend(repo.get_contents(file_content.path))
+        else:
+            file = file_content
+            all_files.append(str(file).replace('ContentFile(path="','').replace('")',''))
+
+    #uplaod files to github
+    if path in all_files:
+        print("file exist")
+        return True
+    else:
+        print("file do not exist")
+        return False
+
+    
+    
 
 def uploadFiletoPath(data, path):
-    g = Github("37dc2d66429fd7886413ea750afe8e250babdcc9")
+    g = Github("638fd3e114fbc580bebdaa2bda81715e971dc77e")
 
     #repo = g.get_user().get_repo('TrackmaniaStats')
     repo = g.get_user().get_repo('pygithub-test')
@@ -469,7 +507,12 @@ def uploadCotdJSONoutput(totdInfo,playersList):
        #print("Fetching results of cotd which compID is :",compID)
 #totdInfo, results = getCOMPresults("204")
 
-#@uploadCotdJSONoutput(totdInfo,results)
+#uploadCotdJSONoutput(totdInfo,results)
+#print(getLatestFinishedcotdID())
+#print(createLatestcotdJSON())
+
+#print(uploadFiletoPath('nothing','test.txt'))
+
 
 #CREATE ORDERED PLAYER LIST
         #writeCotdJSONoutput(totdInfo, results)
