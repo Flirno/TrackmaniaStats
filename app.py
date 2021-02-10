@@ -33,8 +33,18 @@ def admin():
 
 #---------------------PUBLIC-----------------------#
 
+@app.route('/api/searchPlayer/<playerName>')
+def searchPlayer(playerName):
+    
+    playerID = api.searchPlayerByName(playerName)
+    
+    if playerID == "":
+        playerID = "Sorry, player not found."
+        
+    return playerID
+
 @app.route('/api/playerList')
-def playerList(compID):
+def playerList():
     
     fileName = 'json/playerList.json'
     
@@ -54,18 +64,7 @@ def playerProfiles(playerID):
 
     return playerJSON
 
-
-@app.route('/api/searchPlayer/<playerName>')
-def searchPlayer(playerName):
-    
-    playerID = api.searchPlayerByName(playerName)
-    
-    if playerID == "":
-        playerID = "Sorry, player not found."
-        
-    return playerID
-
-@app.route('/api/cotd/<compID>')
+@app.route('/api/cotd/<string:compID>')
 def cotd(compID):
     
     fileName = 'json/cotd/cotd-' + compID + '.json'
