@@ -36,7 +36,7 @@ def admin():
 @app.route('/api/searchPlayer/<playerName>')
 def searchPlayer(playerName):
     
-    playerID = api.searchPlayerByName(playerName)
+    playerID = api.searchPlayerByName(playerName.lower())
     
     if playerID == "":
         return "Sorry, player not found."
