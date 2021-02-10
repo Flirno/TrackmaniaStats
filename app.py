@@ -80,28 +80,23 @@ def cotd(compID):
 
 
 
-@app.route('/api/createLatestcotdJSON/<pwd>')
-def createLatestcotdJSON(pwd):
-    if pwd == "verySecuredPWD":
-        result = api.createLatestcotdJSON()
-        return result
-    else:
-        return "wrong password"
+@app.route('/api/createLatestcotdJSON/')
+def createLatestcotdJSON():
+    result = api.createLatestcotdJSON()
+    return result
+
 
 @app.route('/api/updatePlayers/<pwd>')
-def updatePlayers(pwd):
-    if pwd == "verySecuredPWD":
-        api.updatePlayersProfile(api.getLatestFinishedcotdID())
-    else:
-        return "wrong password"
+def updatePlayers():
+    api.updatePlayersProfile(api.getLatestFinishedcotdID())
+
 
 
 @app.route('/api/sortPlayerList/<pwd>')
-def sortPlayerList(pwd):
-    if pwd == "verySecuredPWD":
-        api.sortAlphabeticalOrder()
-    else:
-        return "wrong password"
+def sortPlayerList():
+    api.sortAlphabeticalOrder()
+
+
     
     
     
