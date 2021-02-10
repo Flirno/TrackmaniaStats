@@ -417,10 +417,10 @@ def sortAlphabeticalOrder():
 def checkFileExist(compID):
     path = 'json/cotd/cotd-'+ compID + '.json'
     
-    g = Github("3ea3f57600dc4b2d244a0b8aa2fce33517c3c776")
+    g = Github("46906614bc6d38ae13ea5ac15241eb98616e9114")
 
-    #repo = g.get_user().get_repo('TrackmaniaStats')
-    repo = g.get_user().get_repo('pygithub-test')
+    repo = g.get_user().get_repo('TrackmaniaStats')
+    #repo = g.get_user().get_repo('pygithub-test')
 
     all_files = []
     contents = repo.get_contents("")
@@ -449,10 +449,10 @@ def uploadFiletoPath(data, path):
     
     data = str(data).replace("'",'"')
     
-    g = Github("3ea3f57600dc4b2d244a0b8aa2fce33517c3c776")
+    g = Github("46906614bc6d38ae13ea5ac15241eb98616e9114")
 
-    #repo = g.get_user().get_repo('TrackmaniaStats')
-    repo = g.get_user().get_repo('pygithub-test')
+    repo = g.get_user().get_repo('TrackmaniaStats')
+    #repo = g.get_user().get_repo('pygithub-test')
 
     all_files = []
     contents = repo.get_contents("")
