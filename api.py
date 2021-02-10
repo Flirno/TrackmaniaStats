@@ -290,11 +290,11 @@ def updatePlayersProfile(compID):
                 print(player.get("playerID"))
                 
                 
-                playerProfile[playerName] = player.get("playerID")
+                #playerProfile[playerName] = player.get("playerID")
                 
                 
-                #with open(playerListName, 'w') as outfile:
-                    #json.dump(playerProfile, outfile)
+                with open(playerListName, 'w') as outfile:
+                    json.dump(playerProfile, outfile)
                     
                     
             if (playerName in playerProfile) and player.get("playerID") != playerProfile[playerName]:
@@ -316,12 +316,12 @@ def updatePlayersProfile(compID):
                         json.dump(playerProfile, outfile)
                     
             #else: #no need to update
-                #print("playeraa already in playerList")
+                #print("player already in playerList")
                 
             
             
         else: #this is their firt cotd, create new profile
-            #print("New player : ",player.get("playerID"))
+            print("New player : ",player.get("playerID"))
             
             data = {}
     
@@ -351,11 +351,11 @@ def updatePlayersProfile(compID):
                 })
             
             
-            uploadFiletoPath(str(data),fileName)
+            #uploadFiletoPath(str(data),fileName)
             
         
-            #with open(fileName, 'w') as outfile:
-                #json.dump(data, outfile)
+            with open(fileName, 'w') as outfile:
+                json.dump(data, outfile)
             
             
             #print(data)
@@ -371,11 +371,11 @@ def updatePlayersProfile(compID):
                 
             playerProfile[playerName] = player.get("playerID")
             
-            uploadFiletoPath(str(playerProfile),playerListName)
+            #uploadFiletoPath(str(playerProfile),playerListName)
             
             
-            #with open(playerListName, 'w') as outfile:
-                #json.dump(playerProfile, outfile)
+            with open(playerListName, 'w') as outfile:
+                json.dump(playerProfile, outfile)
             
         
 
@@ -513,7 +513,8 @@ def testUpload():
 
 #COTDcompIDList = COTDcompIDList #Latest to newest
 
-#compID = getLatestFinishedcotdID()
+compID = getLatestFinishedcotdID()
+print(compID)
 #print(COTDcompIDList[:-6:-1])
 
 #for compID in COTDcompIDList[-50::-1]:
@@ -524,7 +525,7 @@ def testUpload():
     #if not(path.exists(cotdFile)):
 #GATHER INFORMTAIONS FROM TRACKMANIA.IO
        #print("Fetching results of cotd which compID is :",compID)
-#totdInfo, results = getCOMPresults("204")
+totdInfo, results = getCOMPresults(compID)
 
 #uploadCotdJSONoutput(totdInfo,results)
 #print(getLatestFinishedcotdID())
@@ -534,13 +535,14 @@ def testUpload():
 
 
 #CREATE ORDERED PLAYER LIST
-        #writeCotdJSONoutput(totdInfo, results)
+writeCotdJSONoutput(totdInfo, results)
 
 
 #for compID in COTDcompIDList[1:5:]:
 #UPDATE EVERY SINGLE PLAYER PROFILE
-    #updatePlayersProfile(compID)
+updatePlayersProfile(compID)
 
+sortAlphabeticalOrder()
     
 #sauvegarder pour l'accout ID, à chaque nouvelle cotd les pseudo correspondant aux account ID est mis à jour
 

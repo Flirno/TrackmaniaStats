@@ -39,9 +39,9 @@ def searchPlayer(playerName):
     playerID = api.searchPlayerByName(playerName)
     
     if playerID == "":
-        playerID = "Sorry, player not found."
+        return "Sorry, player not found."
         
-    return playerID
+    return ('<a href="https://trackmaniastats.herokuapp.com/api/playerProfile' + str(playerID) + '">https://trackmaniastats.herokuapp.com/api/playerProfile' + str(playerID)+'</a>')
 
 @app.route('/api/playerList')
 def playerList():
