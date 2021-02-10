@@ -272,6 +272,7 @@ def updatePlayersProfile(compID):
             
             
             
+            
             #update the new player profile in the playerList file if necessary
             
             playerListName = 'json/playerList.json'
@@ -291,8 +292,9 @@ def updatePlayersProfile(compID):
                 
                 playerProfile[playerName] = player.get("playerID")
                 
-                with open(playerListName, 'w') as outfile:
-                    json.dump(playerProfile, outfile)
+                
+                #with open(playerListName, 'w') as outfile:
+                    #json.dump(playerProfile, outfile)
                     
                     
             if (playerName in playerProfile) and player.get("playerID") != playerProfile[playerName]:
@@ -348,9 +350,13 @@ def updatePlayersProfile(compID):
                 'totalPlayer' : cotdJSON.get("totalPlayer")
                 })
             
-
-            with open(fileName, 'w') as outfile:
-                json.dump(data, outfile)
+            
+            uploadFiletoPath(str(data),fileName)
+            
+        
+            #with open(fileName, 'w') as outfile:
+                #json.dump(data, outfile)
+            
             
             #print(data)
             
@@ -365,8 +371,11 @@ def updatePlayersProfile(compID):
                 
             playerProfile[playerName] = player.get("playerID")
             
-            with open(playerListName, 'w') as outfile:
-                json.dump(playerProfile, outfile)
+            uploadFiletoPath(str(playerProfile),playerListName)
+            
+            
+            #with open(playerListName, 'w') as outfile:
+                #json.dump(playerProfile, outfile)
             
         
 
@@ -423,7 +432,7 @@ def checkFileExist(compID):
             file = file_content
             all_files.append(str(file).replace('ContentFile(path="','').replace('")',''))
 
-    #uplaod files to github
+
     if path in all_files:
         print("file exist")
         return True
@@ -433,8 +442,13 @@ def checkFileExist(compID):
 
     
     
-
+#data --> str(dictionnary)
 def uploadFiletoPath(data, path):
+    
+    print("in")
+    
+    data = str(data).replace("'",'"')
+    
     g = Github("638fd3e114fbc580bebdaa2bda81715e971dc77e")
 
     #repo = g.get_user().get_repo('TrackmaniaStats')
@@ -475,15 +489,14 @@ def uploadCotdJSONoutput(totdInfo,playersList):
             data['players'].append({'server': ((player[1]-1)//64)+1,'serverRank': player[0],'globalRank': player[1], 'playerName': player[2], 'playerID': player[3]})
     
     path = 'json/cotd/cotd-'+ str(totdInfo[0]) + '.json'
-    
-    data = str(data).replace("'",'"')
-    
+        
     uploadFiletoPath(str(data),path)
     
 
 def testUpload():
-    
-    uploadFiletoPath("test text",'json/test.txt')
+    print("test")
+    uploadFiletoPath("text",'json/test.txt')
+    print("here")
     
 #------------------------------------------CALLS------------------------------------------------------#
 
