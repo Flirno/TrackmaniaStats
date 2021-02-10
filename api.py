@@ -462,7 +462,7 @@ def updatePlayersProfileWEB(compID):
                     'totalPlayer' : cotdJSON.get("totalPlayer")
                     })
                 
-                uploadFiletoPath(str(playerProfile),playerListName)
+                uploadFiletoPath(str(data),fileName)
                 
                 #with open(fileName, 'w') as outfile:
                     #json.dump(data, outfile)
@@ -656,12 +656,6 @@ def checkFileExist(compID):
         print("file do not exist")
         return False
 
-    
-    
-
-
-
-    
     
     
 #FUNCTIONS ONLY FOR APP.PY
