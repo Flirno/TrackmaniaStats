@@ -97,7 +97,7 @@ def sortPlayerList():
     api.sortAlphabeticalOrder()
 
 
-@app.route('/api/sortPlayerList/<pwd>')
+@app.route('/api/testUpload')
 def testUpload():
     api.testUpload()
 
