@@ -22,7 +22,7 @@ current_time = now.strftime("%H:%M:%S")
 @app.route("/home")
 @app.route("/index")
 def hello():
-    return ('<!DOCTYPE html><html><head><title>TrackmaniaStats</title></head><body><h1>Welcome to the TrackmaniaStats api</h1><p>Latest heroku deploy : '+ today + " " + str(current_time)+'</p><h2>Available public endpoint :</h2> <p><a href="https://trackmaniastats.herokuapp.com/api/searchPlayer/playerName">https://trackmaniastats.herokuapp.com/api/searchPlayer/playerName</a> put a player name in that url to get that player ingame ID</p> <p><a href="https://trackmaniastats.herokuapp.com/api/playerProfiles/playerID">https://trackmaniastats.herokuapp.com/api/playerProfiles/playerID</a> put a player ID to get their profile</p> <p><a href="https://trackmaniastats.herokuapp.com/api/playerList">https://trackmaniastats.herokuapp.com/api/playerList</a> to directly get the list of all the players with their corresponding ID</p> <p><a href="https://trackmaniastats.herokuapp.com/api/cotd/compID">https://trackmaniastats.herokuapp.com/api/cotd/compID</a> get the global results of a cotd (compID can be found on trackmania.io)</p> </body></html>')
+    return ('<!DOCTYPE html><html><head><title>TrackmaniaStats</title></head><body><h1>Welcome to the TrackmaniaStats api</h1><p>Latest heroku deploy : '+ today + " " + str(current_time)+'</p><h2>Available public endpoint :</h2> <p><a href="https://trackmaniastats.herokuapp.com/api/searchPlayer/playerName">https://trackmaniastats.herokuapp.com/api/searchPlayer/playerName</a> put a player name in that url (or just a part) to get all corresponding players pseudo and ingame ID</p> <p><a href="https://trackmaniastats.herokuapp.com/api/playerProfiles/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">https://trackmaniastats.herokuapp.com/api/playerProfiles/playerID</a> put a player ID to get their profile</p> <p><a href="https://trackmaniastats.herokuapp.com/api/playerList">https://trackmaniastats.herokuapp.com/api/playerList</a> to directly get the list of all the players with their corresponding ID</p> <p><a href="https://trackmaniastats.herokuapp.com/api/cotd/206">https://trackmaniastats.herokuapp.com/api/cotd/compID</a> get the global results of a cotd (compID can be found on trackmania.io)</p> </body></html>')
 
 
 @app.route("/admin")
@@ -38,7 +38,7 @@ def searchPlayer(playerName):
     
     playerID = api.searchPlayerByName(playerName.lower())
     
-    if playerID == "":
+    if playerID == []:
         return "Sorry, player not found."
     
     output = ""
