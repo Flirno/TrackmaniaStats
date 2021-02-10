@@ -43,7 +43,7 @@ def searchPlayer(playerName):
     
     output = ""
     for player in playerID:
-        output += "<p> Player found : "+ str(player[0]) + " --> " + '<a href="https://trackmaniastats.herokuapp.com/api/playerProfiles/' + str(player[1]) + '">https://trackmaniastats.herokuapp.com/api/playerProfile' + str(player[1])+'</a></p>' 
+        output += "<p> Player found : "+ str(player[0]) + " --> " + '<a href="https://trackmaniastats.herokuapp.com/api/playerProfiles/' + str(player[1]) + '">https://trackmaniastats.herokuapp.com/api/playerProfile/' + str(player[1])+'</a></p>' 
         
     return output
 
