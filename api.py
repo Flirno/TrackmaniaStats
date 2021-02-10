@@ -111,7 +111,6 @@ def getLatestFinishedcotdID():
     i=0
     found =  False
     while cotd.get("competitions")[i].get("players") == 0 or found == False:
-        i+=1
         
         compID = cotd.get("competitions")[i].get("id")
         checkcotd = getJsonFromURL("https://trackmania.io/api/comp/"+ str(compID) )
@@ -119,9 +118,11 @@ def getLatestFinishedcotdID():
             pass
         else:
             found = True
-    
+            
+        
         #time.sleep(0.1)
-        #print(compID)
+        print(compID)
+        i+=1
     
     return str(compID)
 
@@ -148,14 +149,14 @@ def getAllCOTDcompID():
 def createLatestcotdJSON():
 
     compID = getLatestFinishedcotdID()
-    """
+    
     if not(checkFileExist(compID)):
         totdInfo, results = getCOMPresults(compID)
         #writeCotdJSONoutput(totdInfo, results)
         uploadCotdJSONoutput(totdInfo, results)
         
         return("DONE, now wait for heroku to deploy new githubbranche and update player profiles")
-    """   
+       
     
     return("cotd "+str(compID)+" already on github")
 
