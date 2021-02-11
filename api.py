@@ -136,7 +136,7 @@ def getLatestFinishedcotdID():
             
         
         #time.sleep(0.1)
-        print(compID)
+        #print(compID)
         i+=1
     
     return str(compID)
@@ -772,13 +772,12 @@ def testUpload():
 
 
 #Manual daily update
-"""
+
 compID = getLatestFinishedcotdID()
 print(compID)
-"""
-"""
+
 totdInfo, results = getCOMPresults(compID)
 writeCotdJSONoutput(totdInfo, results)
 updatePlayersProfile(compID)
 sortAlphabeticalOrder()
-"""
+
