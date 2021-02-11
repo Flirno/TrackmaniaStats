@@ -772,7 +772,7 @@ def testUpload():
 
 
 #Manual daily update
-
+"""
 compID = getLatestFinishedcotdID()
 print(compID)
 
@@ -780,4 +780,4 @@ totdInfo, results = getCOMPresults(compID)
 writeCotdJSONoutput(totdInfo, results)
 updatePlayersProfile(compID)
 sortAlphabeticalOrder()
-
+"""
