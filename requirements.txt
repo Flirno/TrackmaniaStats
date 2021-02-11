@@ -2,4 +2,5 @@ django
 gunicorn
 django-heroku
 flask
+flask_cors 
 PyGithub==1.54.1
