@@ -687,7 +687,22 @@ def searchPlayerByName(playerName):
     return (playerID)
     """
 
+def totalPlayer():
+    
+    fileName = 'json/playerList.json'
 
+    with open(fileName,'r') as json_file:
+       playerList = json.load(json_file)
+       
+    number = len(playerList)
+    
+    data = {'totalPlayer':number}
+    
+    return data
+    
+    
+    
+    return number
 def createLatestcotdJSON():
 
     compID = str(getLatestFinishedcotdID())

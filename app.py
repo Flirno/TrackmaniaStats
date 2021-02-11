@@ -52,6 +52,15 @@ def searchPlayer(playerName):
         
     return output
     """
+    
+@app.route('/api/totalPlayer')
+def totalPlayer():
+    
+    totalPlayer = api.totalPlayer()
+    
+    return totalPlayer
+
+
 
 @app.route('/api/playerList')
 def playerList():
@@ -62,6 +71,8 @@ def playerList():
        playerList = json.load(json_file)
 
     return playerList
+
+
 
 
 @app.route('/api/playerProfiles/<playerID>')
@@ -88,7 +99,7 @@ def cotd(compID):
 
 #---------------------ADMIN FOR DATABASE UPDATE-----------------------#
 
-
+"""
 
 @app.route('/api/createLatestcotdJSON/')
 def createLatestcotdJSON():
@@ -111,7 +122,7 @@ def sortPlayerList():
 def testUpload():
     api.testUpload()
 
-    
+"""
     
     
     
