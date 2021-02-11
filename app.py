@@ -39,16 +39,19 @@ def admin():
 @app.route('/api/searchPlayer/<playerName>')
 def searchPlayer(playerName):
     
-    playerID = api.searchPlayerByName(playerName.lower())
+    playerIDs = api.searchPlayerByName(playerName.lower())
     
-    if playerID == []:
+    return playerIDs
+    """
+    if playerIDs == :
         return "Sorry, player not found."
     
     output = ""
-    for player in playerID:
+    for player in playerIs:
         output += "<p> Player found : "+ str(player[0]) + " --> " + '<a href="https://trackmaniastats.herokuapp.com/api/playerProfiles/' + str(player[1]) + '">https://trackmaniastats.herokuapp.com/api/playerProfile/' + str(player[1])+'</a></p>' 
         
     return output
+    """
 
 @app.route('/api/playerList')
 def playerList():

@@ -658,7 +658,7 @@ def checkFileExist(compID):
 
     
     
-#FUNCTIONS ONLY FOR APP.PY
+#-------------------------FUNCTIONS ONLY FOR APP.PY--------------------------------------
 
 
 def searchPlayerByName(playerName):
@@ -671,12 +671,12 @@ def searchPlayerByName(playerName):
     
     allIDs = [value  for key, value  in playerList.items() if playerName in key]
     pseudo = [key  for key, value  in playerList.items() if playerName in key]
-    List = []
+    data = {}
     
     for i in range(len(allIDs)):
-        List += [[pseudo[i],allIDs[i]]]
+        data[pseudo[i]] = allIDs[i]
 
-    return List
+    return data
     
     """
     if playerName in playerList:
