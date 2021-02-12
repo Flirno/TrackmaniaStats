@@ -233,7 +233,7 @@ def updatePlayersProfile(compID):
             
             
             
-            #update the new player profile in the playerList file if necessary
+            #add the new player profile in the playerList file if necessary
             
             playerListName = 'json/playerList.json'
             
@@ -256,7 +256,8 @@ def updatePlayersProfile(compID):
                 with open(playerListName, 'w') as outfile:
                     json.dump(playerProfile, outfile)
                     
-                    
+            
+            #if there is a copycat (same login / different ID)
             if (playerName in playerProfile) and player.get("playerID") != playerProfile[playerName]:
                 
                 p = 1
@@ -703,7 +704,7 @@ def totalPlayer():
     
     
     
-    return number
+"""
 def createLatestcotdJSON():
 
     compID = str(getLatestFinishedcotdID())
@@ -722,7 +723,7 @@ def testUpload():
     print("test")
     uploadFiletoPath("text",'json/test.txt')
     print("here")
-    
+"""   
 #------------------------------------------CALLS------------------------------------------------------#
 
 
