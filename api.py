@@ -380,7 +380,7 @@ def writeCotdJSONoutput(totdInfo,playersList):
 
 #--------------------------------------------for web use----------------------------------------------
 
-
+"""
 def updatePlayersProfileWEB(compID):
     #compID is str
     fileName = 'json/cotd/cotd-'+ compID + '.json'
@@ -580,6 +580,7 @@ def updatePlayersProfileWEB(compID):
             #with open(playerListName, 'w') as outfile:
                 #json.dump(playerProfile, outfile)
 
+
 def uploadCotdJSONoutput(totdInfo,playersList):
     
     data = {}
@@ -656,7 +657,7 @@ def checkFileExist(compID):
         print("file do not exist")
         return False
 
-    
+"""
     
 #-------------------------FUNCTIONS ONLY FOR APP.PY--------------------------------------
 
@@ -771,7 +772,8 @@ def testUpload():
 #sauvegarder pour l'accout ID, à chaque nouvelle cotd les pseudo correspondant aux account ID est mis à jour
 
 
-#Manual daily update
+#Manually daily update
+
 """
 compID = getLatestFinishedcotdID()
 print(compID)
@@ -780,4 +782,5 @@ totdInfo, results = getCOMPresults(compID)
 writeCotdJSONoutput(totdInfo, results)
 updatePlayersProfile(compID)
 sortAlphabeticalOrder()
+
 """
