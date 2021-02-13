@@ -790,6 +790,28 @@ def totalPlayer():
     data = {'totalPlayer':number}
     
     return data
+
+def numberNewCOTDPlayers():
+    fileName = 'json/newCOTDPlayers.json'
+
+    with open(fileName,'r') as json_file:
+       playerList = json.load(json_file)
+       
+    number = len(playerList)
+    
+    data = {'numberNewCOTDPlayers':number}
+    
+    return data
+    
+
+
+def newCOTDPlayers():
+    fileName = 'json/newCOTDPlayers.json'
+
+    with open(fileName,'r') as json_file:
+       playerList = json.load(json_file)
+       
+    return playerList
     
     
     
@@ -875,9 +897,10 @@ sortAlphabeticalOrder()
 compID = getLatestFinishedcotdID()
 #compID = "205"
 print(compID)
-
-#totdInfo, results = getCOMPresults(compID)
-#writeCotdJSONoutput(totdInfo, results)
+"""
+"""
+totdInfo, results = getCOMPresults(compID)
+writeCotdJSONoutput(totdInfo, results)
 updatePlayersProfile(compID)
 sortAlphabeticalOrder()
 """

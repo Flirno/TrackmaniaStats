@@ -42,16 +42,6 @@ def searchPlayer(playerName):
     playerIDs = api.searchPlayerByName(playerName.lower())
     
     return playerIDs
-    """
-    if playerIDs == :
-        return "Sorry, player not found."
-    
-    output = ""
-    for player in playerIs:
-        output += "<p> Player found : "+ str(player[0]) + " --> " + '<a href="https://trackmaniastats.herokuapp.com/api/playerProfiles/' + str(player[1]) + '">https://trackmaniastats.herokuapp.com/api/playerProfile/' + str(player[1])+'</a></p>' 
-        
-    return output
-    """
     
 @app.route('/api/totalPlayer')
 def totalPlayer():
@@ -59,6 +49,22 @@ def totalPlayer():
     totalPlayer = api.totalPlayer()
     
     return totalPlayer
+
+
+@app.route('/api/NewCOTDPlayers')
+def NewCOTDPlayers():
+    
+    NewCOTDPlayers = api.NewCOTDPlayers()
+    
+    return NewCOTDPlayers
+
+
+@app.route('/api/numberNewCOTDPlayers')
+def numberNewCOTDPlayers():
+    
+    numberNewCOTDPlayers = api.numberNewCOTDPlayers()
+    
+    return numberNewCOTDPlayers
 
 
 
