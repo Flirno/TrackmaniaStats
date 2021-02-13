@@ -51,12 +51,12 @@ def totalPlayer():
     return totalPlayer
 
 
-@app.route('/api/NewCOTDPlayers')
+@app.route('/api/newCOTDPlayers')
 def NewCOTDPlayers():
     
-    NewCOTDPlayers = api.NewCOTDPlayers()
+    newCOTDPlayers = api.newCOTDPlayers()
     
-    return NewCOTDPlayers
+    return newCOTDPlayers
 
 
 @app.route('/api/numberNewCOTDPlayers')
