@@ -250,8 +250,7 @@ def updatePlayersProfile(compID):
         fileName = 'json/playerProfiles/'+ player.get("playerID") + '.json'
         
         if path.exists(fileName): #the player already played at least one cotd before
-            #print(player.get("playerID")," existe :", player.get("playerName").lower())
-            
+                   
             
             with open(fileName,'r') as json_file:
                 playerProfile = json.load(json_file)
@@ -317,8 +316,6 @@ def updatePlayersProfile(compID):
                 
             #else:
                 #print("results already existing for player : ",player.get("playerID"))
-            
-            
             
             
             #add the new player profile in the playerList file if necessary
@@ -897,8 +894,8 @@ sortAlphabeticalOrder()
 compID = getLatestFinishedcotdID()
 #compID = "205"
 print(compID)
-"""
-"""
+
+
 totdInfo, results = getCOMPresults(compID)
 writeCotdJSONoutput(totdInfo, results)
 updatePlayersProfile(compID)
