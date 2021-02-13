@@ -233,7 +233,7 @@ def updatePlayersProfile(compID):
             
             
             
-            #update the new player profile in the playerList file if necessary
+            #add the new player profile in the playerList file if necessary
             
             playerListName = 'json/playerList.json'
             
@@ -256,7 +256,8 @@ def updatePlayersProfile(compID):
                 with open(playerListName, 'w') as outfile:
                     json.dump(playerProfile, outfile)
                     
-                    
+            
+            #if there is a copycat (same login / different ID)
             if (playerName in playerProfile) and player.get("playerID") != playerProfile[playerName]:
                 
                 p = 1
@@ -380,7 +381,7 @@ def writeCotdJSONoutput(totdInfo,playersList):
 
 #--------------------------------------------for web use----------------------------------------------
 
-
+"""
 def updatePlayersProfileWEB(compID):
     #compID is str
     fileName = 'json/cotd/cotd-'+ compID + '.json'
@@ -580,6 +581,7 @@ def updatePlayersProfileWEB(compID):
             #with open(playerListName, 'w') as outfile:
                 #json.dump(playerProfile, outfile)
 
+
 def uploadCotdJSONoutput(totdInfo,playersList):
     
     data = {}
@@ -656,7 +658,7 @@ def checkFileExist(compID):
         print("file do not exist")
         return False
 
-    
+"""
     
 #-------------------------FUNCTIONS ONLY FOR APP.PY--------------------------------------
 
@@ -702,7 +704,7 @@ def totalPlayer():
     
     
     
-    return number
+"""
 def createLatestcotdJSON():
 
     compID = str(getLatestFinishedcotdID())
@@ -721,7 +723,7 @@ def testUpload():
     print("test")
     uploadFiletoPath("text",'json/test.txt')
     print("here")
-    
+"""   
 #------------------------------------------CALLS------------------------------------------------------#
 
 
@@ -771,7 +773,8 @@ def testUpload():
 #sauvegarder pour l'accout ID, à chaque nouvelle cotd les pseudo correspondant aux account ID est mis à jour
 
 
-#Manual daily update
+#Manually daily update
+
 """
 compID = getLatestFinishedcotdID()
 print(compID)
@@ -780,4 +783,5 @@ totdInfo, results = getCOMPresults(compID)
 writeCotdJSONoutput(totdInfo, results)
 updatePlayersProfile(compID)
 sortAlphabeticalOrder()
+
 """
