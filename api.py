@@ -16,7 +16,6 @@ from github import Github
 
 
 def getJsonFromURL(url):
-       
     content = urllib.request.urlopen(url).read().decode()    
     page = json.loads(content)
     
@@ -27,7 +26,6 @@ def getJsonFromURL(url):
 #[[serverRank, globaRank, Pseudo, playerID], [...], ...]
 #IS WORKING
 def getCOMPresults(compID):
-    
     url = "https://trackmania.io/api/comp/" + compID
     page = getJsonFromURL(url)
     
@@ -143,6 +141,87 @@ def getLatestFinishedcotdID():
 
 
 #--------------------------------------------for local use----------------------------------------------
+
+
+
+def addToPlayerList(player):  
+    playerName = player.get("playerName").lower()
+    
+    playerListName = 'json/playerList.json'
+    
+    with open(playerListName,'r') as json_file:
+        playerProfile = json.load(json_file)
+    
+    if playerName not in playerProfile:
+        print("new name in playerList", player.get("playerName").lower())
+        #As we know this player already has a profile, we'll keep previous Name and store same id for 2 different name, this will be useful to search a player if we only know their pseudo from a long time ago
+        print(player.get("playerID"))
+        print("Saving new name in playerList")
+        playerProfile[playerName] = player.get("playerID")
+                
+        with open(playerListName, 'w') as outfile:
+            json.dump(playerProfile, outfile)
+                    
+            
+    #if there is a copycat (same login / different ID)
+    if (playerName in playerProfile) and player.get("playerID") != playerProfile[playerName]:
+                
+        p = 1
+        out = False
+        while (playerName + '(' + str(p) + ')') in playerProfile and out == False:
+            #print("here",(playerName + '(' + str(p) + ')') in playerProfile, out == False )
+            #print(playerName + '(' + str(p) + ')')
+            if player.get("playerID") != playerProfile[playerName + '(' + str(p) + ')']:
+                p+=1
+            else:
+                out = True
+                
+        if out == False:
+            playerProfile[playerName + '(' + str(p) + ')'] = player.get("playerID")
+                
+            with open(playerListName, 'w') as outfile:
+                json.dump(playerProfile, outfile)
+
+
+def OPENaddToPlayerList(player):  
+    playerName = player.get("nameOnPlatform").lower()
+    
+    playerListName = 'json/playerList.json'
+    
+    with open(playerListName,'r') as json_file:
+        playerProfile = json.load(json_file)
+    
+    if playerName not in playerProfile:
+        #print("new name in playerList", player.get("nameOnPlatform").lower())
+        #As we know this player already has a profile, we'll keep previous Name and store same id for 2 different name, this will be useful to search a player if we only know their pseudo from a long time ago
+        #print(player.get("accountId"))
+        print("Saving new name in playerList")
+        playerProfile[playerName] = player.get("accountId")
+                
+        with open(playerListName, 'w') as outfile:
+            json.dump(playerProfile, outfile)
+                    
+            
+    #if there is a copycat (same login / different ID)
+    if (playerName in playerProfile) and player.get("accountId") != playerProfile[playerName]:
+        print("copy-pasta")
+        p = 1
+        out = False
+        while (playerName + '(' + str(p) + ')') in playerProfile and out == False:
+            #print("here",(playerName + '(' + str(p) + ')') in playerProfile, out == False )
+            #print(playerName + '(' + str(p) + ')')
+            if player.get("accountId") != playerProfile[playerName + '(' + str(p) + ')']:
+                p+=1
+            else:
+                out = True
+                
+        if out == False:
+            playerProfile[playerName + '(' + str(p) + ')'] = player.get("accountId")
+                
+            with open(playerListName, 'w') as outfile:
+                json.dump(playerProfile, outfile)
+
+
 def updatePlayersProfile(compID):
     #compID is str
     fileName = 'json/cotd/cotd-'+ compID + '.json'
@@ -160,12 +239,18 @@ def updatePlayersProfile(compID):
     #today = "2021-02-09"
     
     #print("Today's date:", today)
+    file = open("json/newCOTDPlayers.json","r+")
+    file.truncate(0)
+    file.close()
+    
+    newCOTDPlayers = {}
     
     for player in players:
         
         fileName = 'json/playerProfiles/'+ player.get("playerID") + '.json'
         
         if path.exists(fileName): #the player already played at least one cotd before
+            #print(player.get("playerID")," existe :", player.get("playerName").lower())
             
             
             with open(fileName,'r') as json_file:
@@ -184,11 +269,11 @@ def updatePlayersProfile(compID):
             
             
             #Update player name if necessary (in comparaison with the latest one used)
-            for i in range(len(nameList)):
-                if nameList[i].get('playerName') == player.get("playerName"):
-                    same =  True
-                else:
-                    same = False
+            #for i in range(len(nameList)):
+            if nameList[-1].get('playerName') == player.get("playerName"):
+                same =  True
+            else:
+                same = False
             
             
 
@@ -198,6 +283,8 @@ def updatePlayersProfile(compID):
                                             'sinceDate' : today
                                               
                 })
+            #else:
+                #print("Not new login")
             
             #add new results only if cotd was not already added (in case of bug)
             l=0
@@ -207,6 +294,7 @@ def updatePlayersProfile(compID):
 
             
             if l == len(playerProfile.get('results').get('cotd')):
+                print("doing something")
                 #print("Updating player : ",player.get("playerID"))
                 
                 
@@ -234,53 +322,8 @@ def updatePlayersProfile(compID):
             
             
             #add the new player profile in the playerList file if necessary
-            
-            playerListName = 'json/playerList.json'
-            
-            with open(playerListName,'r') as json_file:
-                playerProfile = json.load(json_file)
-            
-            
-            playerName = player.get("playerName").lower()
-            
-            
-            if playerName not in playerProfile:
-                #As we know this player already has a profile, we'll keep previous Name and store same id for 2 different name, this will be useful to search a player if we only know their pseudo from a long time ago
-                print("Saving new name in playerList")
-                print(player.get("playerID"))
-                
-                
-                #playerProfile[playerName] = player.get("playerID")
-                
-                
-                with open(playerListName, 'w') as outfile:
-                    json.dump(playerProfile, outfile)
-                    
-            
-            #if there is a copycat (same login / different ID)
-            if (playerName in playerProfile) and player.get("playerID") != playerProfile[playerName]:
-                
-                p = 1
-                out = False
-                while (playerName + '(' + str(p) + ')') in playerProfile and out == False:
-                    #print("here",(playerName + '(' + str(p) + ')') in playerProfile, out == False )
-                    #print(playerName + '(' + str(p) + ')')
-                    if player.get("playerID") != playerProfile[playerName + '(' + str(p) + ')']:
-                        p+=1
-                    else:
-                        out = True
-                
-                if out == False:
-                    playerProfile[playerName + '(' + str(p) + ')'] = player.get("playerID")
-                
-                    with open(playerListName, 'w') as outfile:
-                        json.dump(playerProfile, outfile)
-                    
-            #else: #no need to update
-                #print("player already in playerList")
-                
-            
-            
+            addToPlayerList(player)
+
         else: #this is their firt cotd, create new profile
             print("New player : ",player.get("playerID"))
             
@@ -318,26 +361,74 @@ def updatePlayersProfile(compID):
             with open(fileName, 'w') as outfile:
                 json.dump(data, outfile)
             
+            newCOTDPlayers[player.get("playerName")] = player.get("playerID")
             
-            #print(data)
-            
+                    
             #add the new player to the playerList file  
+            addToPlayerList(player)
+    
+    newCOTDPlayerspath = "json/newCOTDPlayers.json"
+
+    with open(newCOTDPlayerspath, 'w') as outfile:
+        json.dump(newCOTDPlayers, outfile)
+     
+ 
+def getOpenTrackmaniaPlayers():    
+    page = getJsonFromURL("https://api.opentrackmania.com/players/rankings")
+    
+    players = page[0]['players']
+    
+    path = "json/openTrackmaniaPlayers.json"
+    
+    with open(path, 'w') as outfile:
+        json.dump(players, outfile)
+    
+
+def addOpenTrackmaniaPlayers():
+    today = str(date.today())
+    
+    file = "json/openTrackmaniaPlayers.json"
             
-            playerListName = 'json/playerList.json'
+    with open(file,'r') as json_file:
+        players = json.load(json_file)
+    
+    #playerListName = 'json/playerList.json'
             
-            playerName = player.get("playerName").lower()
+    
+    for player in players: 
+    
+        #with open(playerListName,'r') as json_file:
+            #playerList = json.load(json_file)
+        
+        #print(player["nameOnPlatform"], " : ", player["accountId"])
+                        
+        fileName = 'json/playerProfiles/'+ player["accountId"] + '.json'
+        
+        
+        if path.exists(fileName): #add new name if necessary 
+            pass
+            #print("player profile already exist")
+    
             
-            with open(playerListName,'r') as json_file:
-                playerProfile = json.load(json_file)
-                
-            playerProfile[playerName] = player.get("playerID")
+        else:  #create Profile with cotd results empty
+            print(player["nameOnPlatform"], " : ", player["accountId"])
+            print("is NEW from opentrackmania")
+           
+            data = {}
+            data['playerID'] = player.get("accountId")
+            data['playerNames'] = []
+            data['playerNames'].append({'playerName' : player.get("nameOnPlatform"),
+                                        'sinceDate' : today
+                                              
+            })
+            data['results'] = {}
+            data['results']['cotd'] = []   
+                 
+            with open(fileName, 'w') as outfile:
+                json.dump(data, outfile)
             
-            #uploadFiletoPath(str(playerProfile),playerListName)
-            
-            
-            with open(playerListName, 'w') as outfile:
-                json.dump(playerProfile, outfile)
-      
+            OPENaddToPlayerList(player)
+                         
             
 def sortAlphabeticalOrder():
     
@@ -357,8 +448,6 @@ def sortAlphabeticalOrder():
         json.dump(newplayerList, json_file)
        
         
-       
-
 def writeCotdJSONoutput(totdInfo,playersList):
     
     data = {}
@@ -775,13 +864,20 @@ def testUpload():
 
 #Manually daily update
 
+
+"""
+getOpenTrackmaniaPlayers()
+addOpenTrackmaniaPlayers()
+sortAlphabeticalOrder()
+"""
+
 """
 compID = getLatestFinishedcotdID()
+#compID = "205"
 print(compID)
 
-totdInfo, results = getCOMPresults(compID)
-writeCotdJSONoutput(totdInfo, results)
+#totdInfo, results = getCOMPresults(compID)
+#writeCotdJSONoutput(totdInfo, results)
 updatePlayersProfile(compID)
 sortAlphabeticalOrder()
-
 """
