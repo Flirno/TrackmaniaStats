@@ -890,7 +890,7 @@ addOpenTrackmaniaPlayers()
 sortAlphabeticalOrder()
 """
 
-"""
+
 compID = getLatestFinishedcotdID()
 #compID = "205"
 print(compID)
@@ -900,4 +900,4 @@ totdInfo, results = getCOMPresults(compID)
 writeCotdJSONoutput(totdInfo, results)
 updatePlayersProfile(compID)
 sortAlphabeticalOrder()
-"""
+
