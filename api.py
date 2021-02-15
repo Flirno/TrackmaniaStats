@@ -815,10 +815,14 @@ def cotdLatest():
     
     fileName = 'json/cotd/cotd-'+ COTDcompID + '.json'
     
-    with open(fileName,'r') as json_file:
-       cotdJSON = json.load(json_file)
+    if path.exists(fileName):
+        
+        with open(fileName,'r') as json_file:
+            cotdJSON = json.load(json_file)
 
-    return cotdJSON
+        return cotdJSON
+    else:
+        return "COTD not added yet."
 
     
 """
