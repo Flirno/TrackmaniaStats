@@ -810,7 +810,16 @@ def newCOTDPlayers():
        
     return playerList
     
+def cotdLatest():
+    COTDcompID= getLatestFinishedcotdID()
     
+    fileName = 'json/cotd/cotd-'+ COTDcompID + '.json'
+    
+    with open(fileName,'r') as json_file:
+       cotdJSON = json.load(json_file)
+
+    return cotdJSON
+
     
 """
 def createLatestcotdJSON():

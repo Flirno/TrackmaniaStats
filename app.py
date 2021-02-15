@@ -101,6 +101,13 @@ def cotd(compID):
 
     return cotdJSON
 
+@app.route('/api/cotd/latest')
+def cotdLatest(compID):
+    
+    cotdLatest = api.cotdLatest()
+    
+    return cotdLatest
+
 
 
 #---------------------ADMIN FOR DATABASE UPDATE-----------------------#
