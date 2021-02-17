@@ -293,7 +293,7 @@ def updatePlayersProfile(compID):
 
             
             if l == len(playerProfile.get('results').get('cotd')):
-                print("doing something")
+                #print("doing something")
                 #print("Updating player : ",player.get("playerID"))
                 
                 
