@@ -66,6 +66,21 @@ def numberNewCOTDPlayers():
     
     return numberNewCOTDPlayers
 
+@app.route('/api/newNamePlayers')
+def newNamePlayers():
+    
+    newNamePlayers = api.newNamePlayers()
+    
+    return newNamePlayers
+
+
+@app.route('/api/numberNewNamePlayers')
+def numberNewNamePlayers():
+    
+    numberNewNamePlayers = api.numberNewNamePlayers()
+    
+    return numberNewNamePlayers
+
 
 
 @app.route('/api/playerList')

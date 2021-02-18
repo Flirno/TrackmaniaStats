@@ -243,7 +243,12 @@ def updatePlayersProfile(compID):
     file.truncate(0)
     file.close()
     
+    file = open("json/newNamePlayers.json","r+")
+    file.truncate(0)
+    file.close()
+    
     newCOTDPlayers = {}
+    newNamePlayers = {}
     
     for player in players:
         
@@ -282,6 +287,15 @@ def updatePlayersProfile(compID):
                                             'sinceDate' : today
                                               
                 })
+                
+                #key = NEW and value = OLD
+                newNamePlayers[player.get("playerName")] = data['playerNames'][-2]['playerName']
+                
+                
+                
+                
+                
+                
             #else:
                 #print("Not new login")
             
@@ -369,7 +383,13 @@ def updatePlayersProfile(compID):
     with open(newCOTDPlayerspath, 'w') as outfile:
         json.dump(newCOTDPlayers, outfile)
      
- 
+        
+    newNamePlayerspath = 'json/newNamePlayers.json'
+    
+    with open(newNamePlayerspath, 'w') as outfile:
+        json.dump(newNamePlayers, outfile)
+    
+    
 def getOpenTrackmaniaPlayers():    
     page = getJsonFromURL("https://api.opentrackmania.com/players/rankings")
     
@@ -801,7 +821,6 @@ def numberNewCOTDPlayers():
     return data
     
 
-
 def newCOTDPlayers():
     fileName = 'json/newCOTDPlayers.json'
 
@@ -809,7 +828,30 @@ def newCOTDPlayers():
        playerList = json.load(json_file)
        
     return playerList
+
+
+def numberNamePlayers():
+    fileName = 'json/newNamePlayers.json'
+
+    with open(fileName,'r') as json_file:
+       playerList = json.load(json_file)
+       
+    number = len(playerList)
     
+    data = {'numberNewNamePlayers':number}
+    
+    return data
+    
+def newNamePlayers():
+    fileName = 'json/newNamePlayers.json'
+
+    with open(fileName,'r') as json_file:
+       playerList = json.load(json_file)
+       
+    return playerList
+
+
+
 def cotdLatest():
     COTDcompID = getLatestFinishedcotdID()
     
