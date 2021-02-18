@@ -830,7 +830,7 @@ def newCOTDPlayers():
     return playerList
 
 
-def numberNamePlayers():
+def numberNewNamePlayers():
     fileName = 'json/newNamePlayers.json'
 
     with open(fileName,'r') as json_file:
