@@ -9,7 +9,7 @@ import urllib.request, json
 import time
 from os import path
 from datetime import date   
-from github import Github
+#from github import Github
 
 #------------------------------------------FUNCTIONS---------------------------------------------------#
 
