@@ -121,6 +121,7 @@ def getAllCOTDcompID():
 def getLatestFinishedcotdID():
     cotd = getJsonFromURL("https://trackmania.io/api/cotd/0")
     
+    print("COTD over")
     i=0
     found =  False
     while cotd.get("competitions")[i].get("players") == 0 or found == False:
@@ -130,9 +131,12 @@ def getLatestFinishedcotdID():
         if checkcotd.get('rounds')[0].get('matches') == []:
             pass
         else:
-            found = True
+            print(compID,"check")
+            if verifIfOver(str(compID)):
+                found = True
+            else:
+                pass
             
-        
         #time.sleep(0.1)
         #print(compID)
         i+=1
@@ -140,6 +144,17 @@ def getLatestFinishedcotdID():
     return str(compID)
 
 
+def verifIfOver(compID):
+    checkcotd = getJsonFromURL("https://trackmania.io/api/comp/"+compID)
+    for match in checkcotd["rounds"][0]["matches"]:
+        #print(match["completed"])
+        if match["completed"] == False:
+            return False
+        else:
+            pass
+    return True
+    
+    
 #--------------------------------------------for local use----------------------------------------------
 
 
@@ -235,8 +250,8 @@ def updatePlayersProfile(compID):
     players = cotdJSON.get("players")
     
     
-    today = str(date.today())
-    #today = "2021-02-09"
+    #today = str(date.today())
+    today = "2021-02-22"
     
     #print("Today's date:", today)
     file = open("json/newCOTDPlayers.json","r+")
@@ -946,13 +961,16 @@ sortAlphabeticalOrder()
 """
 
 """
-compID = getLatestFinishedcotdID()
-#compID = "205"
+#compID = getLatestFinishedcotdID()
+compID = "222"
 print(compID)
 
-
-totdInfo, results = getCOMPresults(compID)
-writeCotdJSONoutput(totdInfo, results)
-updatePlayersProfile(compID)
-sortAlphabeticalOrder()
+if verifIfOver(compID):
+    print("over")
+    #totdInfo, results = getCOMPresults(compID)
+    #writeCotdJSONoutput(totdInfo, results)
+    updatePlayersProfile(compID)
+    sortAlphabeticalOrder()
+else:
+    print("not over")
 """
