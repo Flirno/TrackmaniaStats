@@ -250,8 +250,8 @@ def updatePlayersProfile(compID):
     players = cotdJSON.get("players")
     
     
-    #today = str(date.today())
-    today = "2021-02-22"
+    today = str(date.today())
+    #today = "2021-02-22"
     
     #print("Today's date:", today)
     file = open("json/newCOTDPlayers.json","r+")
@@ -961,14 +961,14 @@ sortAlphabeticalOrder()
 """
 
 """
-#compID = getLatestFinishedcotdID()
-compID = "222"
+compID = getLatestFinishedcotdID()
+#compID = "223"
 print(compID)
 
 if verifIfOver(compID):
     print("over")
-    #totdInfo, results = getCOMPresults(compID)
-    #writeCotdJSONoutput(totdInfo, results)
+    totdInfo, results = getCOMPresults(compID)
+    writeCotdJSONoutput(totdInfo, results)
     updatePlayersProfile(compID)
     sortAlphabeticalOrder()
 else:
