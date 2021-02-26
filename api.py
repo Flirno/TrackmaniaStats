@@ -121,7 +121,7 @@ def getAllCOTDcompID():
 def getLatestFinishedcotdID():
     cotd = getJsonFromURL("https://trackmania.io/api/cotd/0")
     
-    print("COTD over")
+    #print("COTD over")
     i=0
     found =  False
     while cotd.get("competitions")[i].get("players") == 0 or found == False:
@@ -134,6 +134,7 @@ def getLatestFinishedcotdID():
             print(compID,"check")
             if verifIfOver(str(compID)):
                 found = True
+                print("Over")
             else:
                 pass
             
@@ -251,7 +252,7 @@ def updatePlayersProfile(compID):
     
     
     #today = str(date.today())
-    today = "2021-02-24"
+    today = "2021-02-25"
     
     #print("Today's date:", today)
     file = open("json/newCOTDPlayers.json","r+")
@@ -962,15 +963,16 @@ sortAlphabeticalOrder()
 
 """
 #compID = getLatestFinishedcotdID()
-compID = "237"
+compID = "245"
 print(compID)
 
 if verifIfOver(compID):
     print("over")
     totdInfo, results = getCOMPresults(compID)
     writeCotdJSONoutput(totdInfo, results)
-    updatePlayersProfile(compID)
-    sortAlphabeticalOrder()
+    #updatePlayersProfile(compID)
+    #sortAlphabeticalOrder()
 else:
     print("not over")
+
 """
