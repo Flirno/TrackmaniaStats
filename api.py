@@ -252,7 +252,8 @@ def updatePlayersProfile(compID):
     
     
     #today = str(date.today())
-    today = "2021-02-25"
+    #today = "2021-02-25"
+    today = cotdJSON.get("date")
     
     #print("Today's date:", today)
     file = open("json/newCOTDPlayers.json","r+")
@@ -395,15 +396,42 @@ def updatePlayersProfile(compID):
             addToPlayerList(player)
     
     newCOTDPlayerspath = "json/newCOTDPlayers.json"
-
+    
     with open(newCOTDPlayerspath, 'w') as outfile:
         json.dump(newCOTDPlayers, outfile)
-     
+        
+    #Keep track of number of new players every Day
+    
+    numberNewPlayersPath = "json/newCOTDPlayersDays.json"
+    
+    with open(numberNewPlayersPath,'r') as json_file:
+        newPlayersData = json.load(json_file)
+        
+    numberNewPlayers = len(newCOTDPlayers)
+    print(newPlayersData)
+    newPlayersData[today] = numberNewPlayers
+    print(newPlayersData)
+   
+    with open(numberNewPlayersPath, 'w') as outfile:
+        json.dump(newPlayersData, outfile)
         
     newNamePlayerspath = 'json/newNamePlayers.json'
     
     with open(newNamePlayerspath, 'w') as outfile:
         json.dump(newNamePlayers, outfile)
+    
+    #Keep track of pseudo change every Day
+    newNamePlayersDaysPath = 'json/newNamePlayersDays.json'
+    
+    with open(newNamePlayersDaysPath,'r') as json_file:
+        newNamePlayersDays = json.load(json_file)
+    
+    print("")
+    newNamePlayersDays[today] = newNamePlayers
+    
+    with open(newNamePlayersDaysPath, 'w') as outfile:
+        json.dump(newNamePlayersDays, outfile)
+    
     
     
 def getOpenTrackmaniaPlayers():    
@@ -968,11 +996,11 @@ print(compID)
 
 if verifIfOver(compID):
     print("over")
-    totdInfo, results = getCOMPresults(compID)
-    writeCotdJSONoutput(totdInfo, results)
-    #updatePlayersProfile(compID)
-    #sortAlphabeticalOrder()
+    #totdInfo, results = getCOMPresults(compID)
+    #writeCotdJSONoutput(totdInfo, results)
+    updatePlayersProfile(compID)
+    sortAlphabeticalOrder()
+    
 else:
     print("not over")
-
 """
