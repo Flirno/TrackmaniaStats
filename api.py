@@ -929,6 +929,49 @@ def dayLastAddedCOTD():
 
     return(data)
 
+def cotdResultsServers(playerID):
+    
+    fileName = 'json/playerProfiles/' + playerID + '.json'
+    
+    with open(fileName,'r') as json_file:
+        playerProfile = json.load(json_file)
+    
+    data = {"servers":[]}
+    A = []
+    done = []
+    
+    
+    serverL = []
+    for server in playerProfile["results"]["cotd"]:
+        serverL += [server["server"]]
+    maxi = max(serverL)
+    #print(maxi)
+    n=1
+    while n<=maxi:
+        A += [[n,0,0]]
+        n+=1
+        done+=[n]
+    
+    for server in playerProfile["results"]["cotd"]:
+        
+        A[server["server"]-1][0] += 0
+        A[server["server"]-1][1] += 1
+        if server["serverRank"] != "DNF":
+            A[server["server"]-1][2] += server["serverRank"]
+    #print(A) 
+    for server in A:
+        if server[1]!=0:
+            server[2] = round(server[2]/server[1],2)
+        
+        #print(type(data["servers"]))
+        data["servers"] += [{"server":server[0], "iteration":server[1], "averagePosi":server[2]}]
+    
+    #print(A)
+    #{"servers": [{"server":1, "iteration":0, "averagePosi":0},{"server":2, "iteration":3, "averagePosi":24}]}
+    #print(data)
+    
+    return data 
+
     
 """
 def createLatestcotdJSON():
