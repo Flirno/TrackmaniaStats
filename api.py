@@ -924,8 +924,10 @@ def dayLastAddedCOTD():
         cotdJSON = json.load(json_file)
      
     dateMaxi = cotdJSON['date']
+    
+    data = {'dayLastAddedCOTD':dateMaxi}
 
-    return(dateMaxi)
+    return(data)
 
     
 """
