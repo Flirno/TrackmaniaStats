@@ -58,6 +58,13 @@ def NewCOTDPlayers():
     
     return newCOTDPlayers
 
+@app.route('/api/dayLastAddedCOTD')
+def dayLastAddedCOTD():
+    
+    dayLastAddedCOTD = api.dayLastAddedCOTD()
+    
+    return dayLastAddedCOTD
+
 
 @app.route('/api/numberNewCOTDPlayers')
 def numberNewCOTDPlayers():

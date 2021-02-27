@@ -8,7 +8,9 @@ Created on Sun Feb  7 17:12:05 2021
 import urllib.request, json 
 import time
 from os import path
-from datetime import date   
+from datetime import date
+from os import listdir
+from os.path import isfile, join
 #from github import Github
 
 #------------------------------------------FUNCTIONS---------------------------------------------------#
@@ -401,16 +403,15 @@ def updatePlayersProfile(compID):
         json.dump(newCOTDPlayers, outfile)
         
     #Keep track of number of new players every Day
-    
     numberNewPlayersPath = "json/newCOTDPlayersDays.json"
     
     with open(numberNewPlayersPath,'r') as json_file:
         newPlayersData = json.load(json_file)
         
     numberNewPlayers = len(newCOTDPlayers)
-    print(newPlayersData)
+    #print(newPlayersData)
     newPlayersData[today] = numberNewPlayers
-    print(newPlayersData)
+    #print(newPlayersData)
    
     with open(numberNewPlayersPath, 'w') as outfile:
         json.dump(newPlayersData, outfile)
@@ -426,7 +427,7 @@ def updatePlayersProfile(compID):
     with open(newNamePlayersDaysPath,'r') as json_file:
         newNamePlayersDays = json.load(json_file)
     
-    print("")
+    #print("")
     newNamePlayersDays[today] = newNamePlayers
     
     with open(newNamePlayersDaysPath, 'w') as outfile:
@@ -909,6 +910,22 @@ def cotdLatest():
         return cotdJSON
     else:
         return "COTD not added yet."
+    
+def dayLastAddedCOTD():
+    mypath = 'json/cotd/'
+
+    onlyfiles = [int(f[:].replace('.json','').replace('cotd-','')) for f in listdir(mypath) if isfile(join(mypath, f))]
+   
+    maxi = max(onlyfiles)
+
+    fileName = 'json/cotd/cotd-'+ str(maxi) + '.json'
+
+    with open(fileName,'r') as json_file:
+        cotdJSON = json.load(json_file)
+     
+    dateMaxi = cotdJSON['date']
+
+    return(dateMaxi)
 
     
 """
@@ -991,7 +1008,7 @@ sortAlphabeticalOrder()
 
 """
 #compID = getLatestFinishedcotdID()
-compID = "245"
+compID = "246"
 print(compID)
 
 if verifIfOver(compID):
