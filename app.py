@@ -65,7 +65,6 @@ def dayLastAddedCOTD():
     
     return dayLastAddedCOTD
 
-
 @app.route('/api/numberNewCOTDPlayers')
 def numberNewCOTDPlayers():
     
@@ -127,6 +126,67 @@ def cotd(compID):
 
         return cotdJSON
 
+
+@app.route('/api/dataTest')
+def dataTest():
+    
+    dataTest = {  
+
+   "dps":[  
+
+      {  
+
+         "date":1493922600000,
+
+         "units":320
+
+      },
+
+      {  
+
+         "date":1494009000000,
+
+         "units":552
+
+      },
+
+      {  
+
+         "date":1494095400000,
+
+         "units":342
+
+      },
+
+      {  
+
+         "date":1494181800000,
+
+         "units":431
+
+      },
+
+      {  
+
+         "date":1494268200000,
+
+         "units":251
+
+      },
+
+      {  
+
+         "date":1494354600000,
+
+         "units":445
+
+      }
+
+   ]
+
+}
+    
+    return dataTest
 
 
 #---------------------ADMIN FOR DATABASE UPDATE-----------------------#
