@@ -532,285 +532,7 @@ def writeCotdJSONoutput(totdInfo,playersList):
 
 #--------------------------------------------for web use----------------------------------------------
 
-"""
-def updatePlayersProfileWEB(compID):
-    #compID is str
-    fileName = 'json/cotd/cotd-'+ compID + '.json'
 
-    with open(fileName,'r') as json_file:
-       cotdJSON = json.load(json_file)
-       
-    #print(type(cotdJSON))
-    
-    
-    players = cotdJSON.get("players")
-    
-    
-    today = str(date.today())
-    #today = "2021-02-09"
-    
-    #print("Today's date:", today)
-    
-    for player in players:
-        
-        fileName = 'json/playerProfiles/'+ player.get("playerID") + '.json'
-        
-        if path.exists(fileName): #the player already played at least one cotd before
-            
-            
-            with open(fileName,'r') as json_file:
-                playerProfile = json.load(json_file)
-            
-            #print(playerProfile)
-            #print(type(playerProfile))
-            
-            data = {}
-            
-            data['playerID'] = player.get("playerID")
-            
-            nameList = playerProfile.get('playerNames')
-            data['playerNames'] = nameList
-            
-            
-            
-            #Update player name if necessary (in comparaison with the latest one used)
-            for i in range(len(nameList)):
-                if nameList[i].get('playerName') == player.get("playerName"):
-                    same =  True
-                else:
-                    same = False
-            
-            
-
-            if same == False:
-                print("NEW NAME for : ", player.get("playerName"))
-                data['playerNames'].append({'playerName' : player.get("playerName"),
-                                            'sinceDate' : today
-                                              
-                })
-            
-            #add new results only if cotd was not already added (in case of bug)
-            l=0
-            for i in range(len(playerProfile.get('results').get('cotd'))):
-                if cotdJSON.get("date") != playerProfile.get('results').get('cotd')[i].get('date'):
-                    l+=1
-
-            
-            if l == len(playerProfile.get('results').get('cotd')):
-                #print("Updating player : ",player.get("playerID"))
-                
-                
-                data['results'] = {}
-                data['results']['cotd'] = []
-                
-                data['results']['cotd'] = playerProfile.get('results').get('cotd')
-
-                #need to add results from oldest to newest to have them ordered
-                data['results']['cotd'].append({
-                    'date' : cotdJSON.get("date"),
-                    'server' : player.get("server"),
-                    'serverRank' : player.get("serverRank"),
-                    'globalRank' : player.get("globalRank"),
-                    'totalPlayer' : cotdJSON.get("totalPlayer")
-                    })
-                
-                uploadFiletoPath(str(data),fileName)
-                
-                #with open(fileName, 'w') as outfile:
-                    #json.dump(data, outfile)
-                
-            #else:
-                #print("results already existing for player : ",player.get("playerID"))
-            
-            
-            
-            
-            #update the new player profile in the playerList file if necessary
-            
-            playerListName = 'json/playerList.json'
-            
-            with open(playerListName,'r') as json_file:
-                playerProfile = json.load(json_file)
-            
-            
-            playerName = player.get("playerName").lower()
-            
-            
-            if playerName not in playerProfile:
-                #As we know this player already has a profile, we'll keep previous Name and store same id for 2 different name, this will be useful to search a player if we only know their pseudo from a long time ago
-                print("Saving new name in playerList")
-                print(player.get("playerID"))
-                
-                
-                playerProfile[playerName] = player.get("playerID")
-                
-                uploadFiletoPath(str(playerProfile),playerListName)
-                
-                #with open(playerListName, 'w') as outfile:
-                    #json.dump(playerProfile, outfile)
-                    
-                    
-            if (playerName in playerProfile) and player.get("playerID") != playerProfile[playerName]:
-                
-                p = 1
-                out = False
-                while (playerName + '(' + str(p) + ')') in playerProfile and out == False:
-                    #print("here",(playerName + '(' + str(p) + ')') in playerProfile, out == False )
-                    #print(playerName + '(' + str(p) + ')')
-                    if player.get("playerID") != playerProfile[playerName + '(' + str(p) + ')']:
-                        p+=1
-                    else:
-                        out = True
-                
-                if out == False:
-                    playerProfile[playerName + '(' + str(p) + ')'] = player.get("playerID")
-                    
-                    uploadFiletoPath(str(playerProfile),playerListName)
-                    
-                    #with open(playerListName, 'w') as outfile:
-                        #json.dump(playerProfile, outfile)
-                    
-            #else: #no need to update
-                #print("player already in playerList")
-                
-            
-            
-        else: #this is their firt cotd, create new profile
-            print("New player : ",player.get("playerID"))
-            
-            data = {}
-    
-            data['playerID'] = player.get("playerID")
-            
-            data['playerNames'] = []
-            data['playerNames'].append({'playerName' : player.get("playerName"),
-                                        'sinceDate' : today
-                                              
-            })
-            
-        
-            data['results'] = {}
-            
-            #print(data)
-            
-            data['results']['cotd'] = []
-            
-            #print(data)
-
-            data['results']['cotd'].append({
-                'date' : cotdJSON.get("date"),
-                'server' : player.get("server"),
-                'serverRank' : player.get("serverRank"),
-                'globalRank' : player.get("globalRank"),
-                'totalPlayer' : cotdJSON.get("totalPlayer")
-                })
-            
-            
-            uploadFiletoPath(str(data),fileName)
-            
-        
-            #with open(fileName, 'w') as outfile:
-                #json.dump(data, outfile)
-            
-            
-            #print(data)
-            
-            #add the new player to the playerList file  
-            
-            playerListName = 'json/playerList.json'
-            
-            playerName = player.get("playerName").lower()
-            
-            with open(playerListName,'r') as json_file:
-                playerProfile = json.load(json_file)
-                
-            playerProfile[playerName] = player.get("playerID")
-            
-            uploadFiletoPath(str(playerProfile),playerListName)
-            
-            
-            #with open(playerListName, 'w') as outfile:
-                #json.dump(playerProfile, outfile)
-
-
-def uploadCotdJSONoutput(totdInfo,playersList):
-    
-    data = {}
-    
-    data['compID'] = totdInfo[0]
-    data['date'] = totdInfo[1]
-    data['totalPlayer'] = totdInfo[2]
-    
-    
-    data['players'] = []
-
-    for player in playersList:
-            data['players'].append({'server': ((player[1]-1)//64)+1,'serverRank': player[0],'globalRank': player[1], 'playerName': player[2], 'playerID': player[3]})
-    
-    path = 'json/cotd/cotd-'+ str(totdInfo[0]) + '.json'
-        
-    uploadFiletoPath(str(data),path)
-
-#data --> str(dictionnary)
-def uploadFiletoPath(data, path):
-    
-    print("in")
-    
-    data = str(data).replace("'",'"')
-    
-    g = Github("xxxxxxxxxxxxxxxxxxxx")
-
-    repo = g.get_user().get_repo('TrackmaniaStats')
-    #repo = g.get_user().get_repo('pygithub-test')
-
-    all_files = []
-    contents = repo.get_contents("")
-    while contents:
-        file_content = contents.pop(0)
-        if file_content.type == "dir":
-            contents.extend(repo.get_contents(file_content.path))
-        else:
-            file = file_content
-            all_files.append(str(file).replace('ContentFile(path="','').replace('")',''))
-
-    #uplaod files to github
-    if path in all_files:
-        contents = repo.get_contents(path)
-        repo.update_file(contents.path, "committing files", data, contents.sha, branch="master")
-        print(path + ' UPDATED')
-    else:
-        repo.create_file(path, "committing files", data, branch="master")
-        print(path + ' CREATED')
-    
-    
-def checkFileExist(compID):
-    path = 'json/cotd/cotd-'+ compID + '.json'
-    
-    g = Github("xxxxxxxxxxxxxxxxxxxx")
-
-    repo = g.get_user().get_repo('TrackmaniaStats')
-    #repo = g.get_user().get_repo('pygithub-test')
-
-    all_files = []
-    contents = repo.get_contents("")
-    while contents:
-        file_content = contents.pop(0)
-        if file_content.type == "dir":
-            contents.extend(repo.get_contents(file_content.path))
-        else:
-            file = file_content
-            all_files.append(str(file).replace('ContentFile(path="','').replace('")',''))
-
-
-    if path in all_files:
-        print("file exist")
-        return True
-    else:
-        print("file do not exist")
-        return False
-
-"""
-    
 #-------------------------FUNCTIONS ONLY FOR APP.PY--------------------------------------
 
 
@@ -951,6 +673,7 @@ def cotdResultsServers(playerID):
         A += [[n,0,0]]
         n+=1
         done+=[n]
+    l=0
     
     for server in playerProfile["results"]["cotd"]:
         
@@ -961,15 +684,17 @@ def cotdResultsServers(playerID):
         
         elif server["serverRank"] != "DNF" and A[server["server"]-1][2] == "DNF":
             A[server["server"]-1][2] = server["serverRank"]
+            l+=1
             
         elif server["serverRank"] != "DNF" and A[server["server"]-1][2] != "DNF":
             A[server["server"]-1][2] += server["serverRank"]
+            l+=1
 
             
     #print(A) 
     for server in A:
         if server[1]!=0 and server[2]!="DNF":
-            server[2] = round(server[2]/server[1],2)
+            server[2] = round(server[2]/l,2)
         
         #print(type(data["servers"]))
         data["servers"] += [{"server":server[0], "iteration":server[1], "averagePosi":server[2]}]
@@ -1002,55 +727,6 @@ def testUpload():
     print("here")
 """   
 #------------------------------------------CALLS------------------------------------------------------#
-
-
-#searchPlayerByName("riolu-tm")
-
-#done one time
-#COTDcompIDList = getAllCOTDcompID() 
-#COTDcompIDList = ['205', '204', '203', '202', '201', '200', '199', '197', '196', '195', '193', '192', '190', '189', '188', '187', '186', '182', '178', '174', '173', '172', '165', '164', '163', '161', '159', '158', '157', '156', '155', '154', '151', '149', '148', '144', '142', '140', '139', '138', '136', '133', '132', '131', '130', '129', '128', '127', '126', '123', '122', '121', '119', '118', '116', '113', '109', '107', '105', '104', '103', '101', '100', '99', '98', '97', '96', '94', '92', '91', '90', '84', '81', '76', '75', '74', '73', '71', '70', '69', '66', '65', '62', '61', '59', '58', '57', '56', '55', '53', '52', '51', '49', '48', '47', '45', '44', '42', '41', '40']
-
-#sortAlphabeticalOrder()
-
-#print(len(COTDcompIDList))
-
-#COTDcompIDList = COTDcompIDList #Latest to newest
-
-#compID = getLatestFinishedcotdID()
-#print(compID)
-#print(COTDcompIDList[:-6:-1])
-
-#for compID in COTDcompIDList[-50::-1]:
-    #print(compID)
-    
-    #cotdFile = 'json/cotd/cotd-' + compID + '.json'
-    
-    #if not(path.exists(cotdFile)):
-#GATHER INFORMTAIONS FROM TRACKMANIA.IO
-       #print("Fetching results of cotd which compID is :",compID)
-#totdInfo, results = getCOMPresults(compID)
-
-#uploadCotdJSONoutput(totdInfo,results)
-#print(getLatestFinishedcotdID())
-#print(createLatestcotdJSON())
-
-#print(uploadFiletoPath('nothing','test.txt'))
-
-
-#CREATE ORDERED PLAYER LIST
-#writeCotdJSONoutput(totdInfo, results)
-
-
-#for compID in COTDcompIDList[1:5:]:
-#UPDATE EVERY SINGLE PLAYER PROFILE
-#updatePlayersProfile(compID)
-
-#sortAlphabeticalOrder()
-    
-#sauvegarder pour l'accout ID, à chaque nouvelle cotd les pseudo correspondant aux account ID est mis à jour
-
-
-#Manually daily update
 
 
 """
