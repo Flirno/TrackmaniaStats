@@ -675,25 +675,23 @@ def cotdResultsServers(playerID):
         done+=[n]
     
     for server in playerProfile["results"]["cotd"]:
-
         A[server["server"]-1][0] += 0
         A[server["server"]-1][1] += 1
-        if server["serverRank"] == "DNF" and A[server["server"]-1][2] == 0:
-            A[server["server"]-1][2] = server["serverRank"]
+        if server["serverRank"] == "DNF" and A[server["server"]-1][3] == 0:
+            A[server["server"]-1][3] = server["serverRank"]
             
-        elif server["serverRank"] != "DNF" and A[server["server"]-1][2] == "DNF":
-            A[server["server"]-1][2] = server["serverRank"]
+        elif server["serverRank"] != "DNF" and A[server["server"]-1][3] == "DNF":
+            A[server["server"]-1][3] = server["serverRank"]
             A[server["server"]-1][2] += 1
             
-        elif server["serverRank"] != "DNF" and A[server["server"]-1][2] != "DNF":
-            A[server["server"]-1][2] += server["serverRank"]
+        elif server["serverRank"] != "DNF" and A[server["server"]-1][3] != "DNF":
+            A[server["server"]-1][3] += server["serverRank"]
             A[server["server"]-1][2] += 1
-        
 
     #print(A) 
     for server in A:
         if server[1]!=0 and server[2]!="DNF":
-            server[2] = round(server[2]/server[4],2)
+            server[2] = round(server[3]/server[2],2)
         
         #print(type(data["servers"]))
         data["servers"] += [{"server":server[0], "iteration":server[1], "averagePosi":server[3]}]
@@ -703,7 +701,6 @@ def cotdResultsServers(playerID):
     #print(data)
     
     return data 
-
     
 """
 def createLatestcotdJSON():
