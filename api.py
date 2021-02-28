@@ -956,11 +956,19 @@ def cotdResultsServers(playerID):
         
         A[server["server"]-1][0] += 0
         A[server["server"]-1][1] += 1
-        if server["serverRank"] != "DNF":
+        if server["serverRank"] == "DNF" and A[server["server"]-1][2] == 0:
+            A[server["server"]-1][2] = server["serverRank"]
+        
+        elif server["serverRank"] != "DNF" and A[server["server"]-1][2] == "DNF":
+            A[server["server"]-1][2] = server["serverRank"]
+            
+        elif server["serverRank"] != "DNF" and A[server["server"]-1][2] != "DNF":
             A[server["server"]-1][2] += server["serverRank"]
+
+            
     #print(A) 
     for server in A:
-        if server[1]!=0:
+        if server[1]!=0 and server[2]!="DNF":
             server[2] = round(server[2]/server[1],2)
         
         #print(type(data["servers"]))
