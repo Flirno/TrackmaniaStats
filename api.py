@@ -690,8 +690,9 @@ def cotdResultsServers(playerID):
 
     #print(A) 
     for server in A:
-        if server[1]!=0 and server[2]!="DNF":
-            server[2] = round(server[3]/server[2],2)
+        
+        if server[1]!=0 and server[3]!="DNF":
+            server[3] = round(server[3]/server[2],2)
         
         #print(type(data["servers"]))
         data["servers"] += [{"server":server[0], "iteration":server[1], "averagePosi":server[3]}]
