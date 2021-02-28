@@ -670,34 +670,33 @@ def cotdResultsServers(playerID):
     #print(maxi)
     n=1
     while n<=maxi:
-        A += [[n,0,0]]
+        A += [[n,0,0,0]] #server, played, finished, averageposi
         n+=1
         done+=[n]
-    l=0
     
     for server in playerProfile["results"]["cotd"]:
-        
+
         A[server["server"]-1][0] += 0
         A[server["server"]-1][1] += 1
         if server["serverRank"] == "DNF" and A[server["server"]-1][2] == 0:
             A[server["server"]-1][2] = server["serverRank"]
-        
+            
         elif server["serverRank"] != "DNF" and A[server["server"]-1][2] == "DNF":
             A[server["server"]-1][2] = server["serverRank"]
-            l+=1
+            A[server["server"]-1][2] += 1
             
         elif server["serverRank"] != "DNF" and A[server["server"]-1][2] != "DNF":
             A[server["server"]-1][2] += server["serverRank"]
-            l+=1
+            A[server["server"]-1][2] += 1
+        
 
-            
     #print(A) 
     for server in A:
         if server[1]!=0 and server[2]!="DNF":
-            server[2] = round(server[2]/l,2)
+            server[2] = round(server[2]/server[4],2)
         
         #print(type(data["servers"]))
-        data["servers"] += [{"server":server[0], "iteration":server[1], "averagePosi":server[2]}]
+        data["servers"] += [{"server":server[0], "iteration":server[1], "averagePosi":server[3]}]
     
     #print(A)
     #{"servers": [{"server":1, "iteration":0, "averagePosi":0},{"server":2, "iteration":3, "averagePosi":24}]}
