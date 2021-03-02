@@ -7,10 +7,11 @@ Created on Sun Feb  7 17:12:05 2021
 
 import urllib.request, json 
 import time
-
+"""
 import os
 import copy
-
+import math
+"""
 from os import path
 from datetime import date
 from os import listdir
@@ -371,7 +372,7 @@ def createCOTDRanking():
             totalPlayers += result["totalPlayer"]
             totalNumberOfCOTD += 1
         
-        playerPoint = (1/((totalPlacement/totalPlayers)*(1/totalNumberOfCOTD)))
+        playerPoint = (1/((totalPlacement/totalPlayers)*(1/math.sqrt(math.sqrt(totalNumberOfCOTD)))))
         #playerPoint = ((totalPlacement)/(totalPlayers))*totalNumberOfCOTD
         
         data += [[('playerName',playerName),("totalPlacement", totalPlacement),("totalPlayers", totalPlayers),("totalNumberOfCOTD", totalNumberOfCOTD),("playerPoint",playerPoint)]]
@@ -387,7 +388,8 @@ def createCOTDRanking():
     with open(fileName, 'w') as outfile:
         json.dump(dataa, outfile)
     
-        
+    
+    
 #createCOTDRanking()
 
 
@@ -713,6 +715,13 @@ def newNamePlayers():
        
     return playerList
 
+def COTDRankings():
+    fileName = "json/COTDRanking.json"
+    
+    with open(fileName,'r') as json_file:
+        COTDRankings = json.load(json_file)
+       
+    return COTDRankings
 
 
 def cotdLatest():
@@ -827,7 +836,7 @@ addOpenTrackmaniaPlayers()
 sortAlphabeticalOrder()
 """
 
-
+"""
 compID = getLatestFinishedcotdID()
 #compID = "246"
 print(compID)
@@ -841,3 +850,4 @@ if verifIfOver(compID):
     
 else:
     print("not over")
+"""
