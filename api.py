@@ -7,6 +7,10 @@ Created on Sun Feb  7 17:12:05 2021
 
 import urllib.request, json 
 import time
+
+import os
+import copy
+
 from os import path
 from datetime import date
 from os import listdir
@@ -200,7 +204,7 @@ def addToPlayerList(player):
             with open(playerListName, 'w') as outfile:
                 json.dump(playerProfile, outfile)
 
-
+"""
 def OPENaddToPlayerList(player):  
     playerName = player.get("nameOnPlatform").lower()
     
@@ -238,6 +242,153 @@ def OPENaddToPlayerList(player):
                 
             with open(playerListName, 'w') as outfile:
                 json.dump(playerProfile, outfile)
+
+def getOpenTrackmaniaPlayers():    
+    page = getJsonFromURL("https://api.opentrackmania.com/players/rankings")
+    
+    players = page[0]['players']
+    
+    path = "json/openTrackmaniaPlayers.json"
+    
+    with open(path, 'w') as outfile:
+        json.dump(players, outfile)
+    
+
+def addOpenTrackmaniaPlayers():
+    today = str(date.today())
+    
+    file = "json/openTrackmaniaPlayers.json"
+            
+    with open(file,'r') as json_file:
+        players = json.load(json_file)
+    
+    #playerListName = 'json/playerList.json'
+            
+    
+    for player in players: 
+    
+        #with open(playerListName,'r') as json_file:
+            #playerList = json.load(json_file)
+        
+        #print(player["nameOnPlatform"], " : ", player["accountId"])
+                        
+        fileName = 'json/playerProfiles/'+ player["accountId"] + '.json'
+        
+        
+        if path.exists(fileName): #add new name if necessary 
+            pass
+            #print("player profile already exist")
+    
+            
+        else:  #create Profile with cotd results empty
+            print(player["nameOnPlatform"], " : ", player["accountId"])
+            print("is NEW from opentrackmania")
+           
+            data = {}
+            data['playerID'] = player.get("accountId")
+            data['playerNames'] = []
+            data['playerNames'].append({'playerName' : player.get("nameOnPlatform"),
+                                        'sinceDate' : today
+                                              
+            })
+            data['results'] = {}
+            data['results']['cotd'] = []   
+                 
+            with open(fileName, 'w') as outfile:
+                json.dump(data, outfile)
+            
+            OPENaddToPlayerList(player)
+                         
+            
+
+def deleteOPENtrackmaniaPlaers():
+    playerListName = 'json/playerList.json'
+    
+    with open(playerListName,'r') as json_file:
+        playerList = json.load(json_file)
+        
+    
+    for playerID in playerList.values():
+
+        #playerID = player["accountId"]
+        fileName = "json/playerProfiles/"+playerID+".json"
+        
+        with open(fileName,'r') as json_file:
+            playerProfile = json.load(json_file)
+        
+        
+        if playerProfile["results"]["cotd"]==[]:
+            #print(path.exists(fileName))
+            print(playerID)
+            #os.remove(fileName)
+            #print(path.exists(fileName))
+        
+#deleteOPENtrackmaniaPlaers()
+
+
+def delOpenfromPlayerList():
+    playerListName = 'json/playerList.json'
+    
+    with open(playerListName,'r') as json_file:
+        playerList = json.load(json_file)
+    
+    newPlayerList = copy.deepcopy(playerList)
+    print(len(playerList))
+    
+    for playerName in playerList:
+        playerID = playerList[playerName]
+        fileName = "json/playerProfiles/"+playerID+".json"
+        if not(path.exists(fileName)):
+            print("llol")
+        else:
+            print("exist")
+            
+delOpenfromPlayerList()
+"""
+
+
+def createCOTDRanking():
+    playerListName = 'json/playerList.json'
+    
+    with open(playerListName,'r') as json_file:
+        playerList = json.load(json_file)
+    
+    data = []
+    
+    for playerName in playerList:
+        totalPlacement = 0
+        totalPlayers = 0 
+        totalNumberOfCOTD = 0
+        
+        playerID = playerList[playerName]
+        fileName = 'json/playerProfiles/' + playerID + '.json'
+    
+        with open(fileName,'r') as json_file:
+            playerProfile = json.load(json_file)
+                                 
+        for result in playerProfile["results"]["cotd"]:
+            totalPlacement += result["globalRank"]
+            totalPlayers += result["totalPlayer"]
+            totalNumberOfCOTD += 1
+        
+        playerPoint = (1/((totalPlacement/totalPlayers)*(1/totalNumberOfCOTD)))
+        #playerPoint = ((totalPlacement)/(totalPlayers))*totalNumberOfCOTD
+        
+        data += [[('playerName',playerName),("totalPlacement", totalPlacement),("totalPlayers", totalPlayers),("totalNumberOfCOTD", totalNumberOfCOTD),("playerPoint",playerPoint)]]
+
+    data = sorted(data, key=lambda x: x[4][1], reverse=True)
+    #print(data)
+    dataa = {}
+    
+    for player in data:
+        dataa[player[0][1]] =  dict(player)
+    #print(dataa)
+    fileName = "json/COTDRanking.json"
+    with open(fileName, 'w') as outfile:
+        json.dump(dataa, outfile)
+    
+        
+#createCOTDRanking()
 
 
 def updatePlayersProfile(compID):
@@ -309,6 +460,7 @@ def updatePlayersProfile(compID):
                 
                 #key = NEW and value = OLD
                 newNamePlayers[player.get("playerName")] = data['playerNames'][-2]['playerName']
+                
                 
                 
                 
@@ -435,63 +587,7 @@ def updatePlayersProfile(compID):
     
     
     
-def getOpenTrackmaniaPlayers():    
-    page = getJsonFromURL("https://api.opentrackmania.com/players/rankings")
-    
-    players = page[0]['players']
-    
-    path = "json/openTrackmaniaPlayers.json"
-    
-    with open(path, 'w') as outfile:
-        json.dump(players, outfile)
-    
 
-def addOpenTrackmaniaPlayers():
-    today = str(date.today())
-    
-    file = "json/openTrackmaniaPlayers.json"
-            
-    with open(file,'r') as json_file:
-        players = json.load(json_file)
-    
-    #playerListName = 'json/playerList.json'
-            
-    
-    for player in players: 
-    
-        #with open(playerListName,'r') as json_file:
-            #playerList = json.load(json_file)
-        
-        #print(player["nameOnPlatform"], " : ", player["accountId"])
-                        
-        fileName = 'json/playerProfiles/'+ player["accountId"] + '.json'
-        
-        
-        if path.exists(fileName): #add new name if necessary 
-            pass
-            #print("player profile already exist")
-    
-            
-        else:  #create Profile with cotd results empty
-            print(player["nameOnPlatform"], " : ", player["accountId"])
-            print("is NEW from opentrackmania")
-           
-            data = {}
-            data['playerID'] = player.get("accountId")
-            data['playerNames'] = []
-            data['playerNames'].append({'playerName' : player.get("nameOnPlatform"),
-                                        'sinceDate' : today
-                                              
-            })
-            data['results'] = {}
-            data['results']['cotd'] = []   
-                 
-            with open(fileName, 'w') as outfile:
-                json.dump(data, outfile)
-            
-            OPENaddToPlayerList(player)
-                         
-            
 def sortAlphabeticalOrder():
     
     fileName = 'json/playerList.json'
@@ -662,7 +758,6 @@ def cotdResultsServers(playerID):
     A = []
     done = []
     
-    
     serverL = []
     for server in playerProfile["results"]["cotd"]:
         serverL += [server["server"]]
@@ -732,7 +827,7 @@ addOpenTrackmaniaPlayers()
 sortAlphabeticalOrder()
 """
 
-"""
+
 compID = getLatestFinishedcotdID()
 #compID = "246"
 print(compID)
@@ -746,4 +841,3 @@ if verifIfOver(compID):
     
 else:
     print("not over")
-"""
