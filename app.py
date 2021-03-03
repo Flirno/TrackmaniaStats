@@ -25,7 +25,7 @@ current_time = now.strftime("%H:%M:%S")
 @app.route("/home")
 @app.route("/index")
 def hello():
-    return ('<!DOCTYPE html><html><head><title>TrackmaniaStats</title></head><body><h1>Welcome to the TrackmaniaStats api</h1><p>Latest heroku deployment : '+ today + " " + str(current_time)+'</p><h2>Available public endpoint :</h2> <p><a href="https://trackmaniastats.herokuapp.com/api/searchPlayer/playerName">https://trackmaniastats.herokuapp.com/api/searchPlayer/playerName</a> put a player name in that url (or just a part) to get all corresponding players pseudo and ingame ID</p> <p><a href="https://trackmaniastats.herokuapp.com/api/playerProfiles/0c857beb-fd95-4449-a669-21fb310cacae">https://trackmaniastats.herokuapp.com/api/playerProfiles/playerID</a> put a player ID to get their profile</p> <p><a href="https://trackmaniastats.herokuapp.com/api/cotdResultsServers/0c857beb-fd95-4449-a669-21fb310cacae">https://trackmaniastats.herokuapp.com/api/cotdResultsServers/playerID</a> put a player ID to get their cotd results in a specific format</p> <p><a href="https://trackmaniastats.herokuapp.com/api/playerList">https://trackmaniastats.herokuapp.com/api/playerList</a> to directly get the list of all the players with their corresponding ID</p> <p><a href="https://trackmaniastats.herokuapp.com/api/cotd/206">https://trackmaniastats.herokuapp.com/api/cotd/compID</a> get the global results of a cotd (compID can be found on trackmania.io)</p> <p><a href="https://trackmaniastats.herokuapp.com/api/cotd/latest">https://trackmaniastats.herokuapp.com/api/cotd/latest</a> get the global results of the Latest finished cotd</p> </body></html>')
+    return ('<!DOCTYPE html><html><head><title>TrackmaniaStats</title></head><body><h1>Welcome to the TrackmaniaStats api</h1><p>Latest heroku deployment : '+ today + " " + str(current_time)+'</p><h2>Available public endpoint :</h2> <p><a href="https://trackmaniastats.herokuapp.com/api/searchPlayer/playerName">https://trackmaniastats.herokuapp.com/api/searchPlayer/playerName</a> put a player name in that url (or just a part) to get all corresponding players pseudo and ingame ID</p> <p><a href="https://trackmaniastats.herokuapp.com/api/playerProfiles/0c857beb-fd95-4449-a669-21fb310cacae">https://trackmaniastats.herokuapp.com/api/playerProfiles/playerID</a> put a player ID to get their profile</p> <p><a href="https://trackmaniastats.herokuapp.com/api/cotdResultsServers/0c857beb-fd95-4449-a669-21fb310cacae">https://trackmaniastats.herokuapp.com/api/cotdResultsServers/playerID</a> put a player ID to get their cotd results in a specific format</p> <p><a href="https://trackmaniastats.herokuapp.com/api/playerList">https://trackmaniastats.herokuapp.com/api/playerList</a> to directly get the list of all the players with their corresponding ID</p> <p><a href="https://trackmaniastats.herokuapp.com/api/cotd/206">https://trackmaniastats.herokuapp.com/api/cotd/compID</a> get the global results of a cotd (compID can be found on trackmania.io)</p> <p><a href="https://trackmaniastats.herokuapp.com/api/cotd/latest">https://trackmaniastats.herokuapp.com/api/cotd/latest</a> get the global results of the Latest finished cotd</p> <p><a href="https://trackmaniastats.herokuapp.com/api/COTDRankings/">https://trackmaniastats.herokuapp.com/api/COTDRankings/</a> get the global rankings :eyes:</p> </body></html>')
 
 """
 @app.route("/admin")
@@ -79,7 +79,7 @@ def newNamePlayers():
     newNamePlayers = api.newNamePlayers()
     
     return newNamePlayers
-
+ 
 
 @app.route('/api/numberNewNamePlayers')
 def numberNewNamePlayers():
@@ -120,7 +120,7 @@ def cotdResultsServers(playerID):
     
     return cotdResultsServers
 
-@app.route('/api/COTDRankings')
+@app.route('/api/COTDRankings/')
 def COTDRankings():
     
     COTDRankings = api.COTDRankings()
