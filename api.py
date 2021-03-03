@@ -355,8 +355,10 @@ def createCOTDRanking():
         playerList = json.load(json_file)
     
     data = []
+    total = 0
     
     for playerName in playerList:
+        total+=1
         totalPlacement = 0
         totalPlayers = 0 
         totalNumberOfCOTD = 0
@@ -376,7 +378,10 @@ def createCOTDRanking():
         #playerPoint = ((totalPlacement)/(totalPlayers))*totalNumberOfCOTD
         
         data += [[('playerName',playerName),("totalPlacement", totalPlacement),("totalPlayers", totalPlayers),("totalNumberOfCOTD", totalNumberOfCOTD),("playerPoint",playerPoint)]]
-
+        
+        if total%1000==0:
+            print(total," / ", len(playerList) ,"done")
+        
     data = sorted(data, key=lambda x: x[4][1], reverse=True)
     #print(data)
     dataa = {}
@@ -389,9 +394,59 @@ def createCOTDRanking():
         json.dump(dataa, outfile)
     
     
+
     
 #createCOTDRanking()
 
+
+def createCOTDRankingLastxCOTD(x):
+    #x = 10 test
+    playerListName = 'json/playerList.json'
+    
+    with open(playerListName,'r') as json_file:
+        playerList = json.load(json_file)
+    
+    data = []
+    total = 0
+    
+    for playerName in playerList:
+        total+=1
+        totalPlacement = 0
+        totalPlayers = 0 
+        totalNumberOfCOTD = 0
+        
+        playerID = playerList[playerName]
+        fileName = 'json/playerProfiles/' + playerID + '.json'
+    
+        with open(fileName,'r') as json_file:
+            playerProfile = json.load(json_file)
+                                 
+        for result in playerProfile["results"]["cotd"]:
+            totalPlacement += result["globalRank"]
+            totalPlayers += result["totalPlayer"]
+            totalNumberOfCOTD += 1
+        
+        playerPoint = (1/((totalPlacement/totalPlayers)*(1/math.sqrt(math.sqrt(totalNumberOfCOTD)))))
+        #playerPoint = ((totalPlacement)/(totalPlayers))*totalNumberOfCOTD
+        
+        data += [[('playerName',playerName),("totalPlacement", totalPlacement),("totalPlayers", totalPlayers),("totalNumberOfCOTD", totalNumberOfCOTD),("playerPoint",playerPoint)]]
+        
+        if total%1000==0:
+            print(total," / ", len(playerList) ,"done")
+        
+    data = sorted(data, key=lambda x: x[4][1], reverse=True)
+    #print(data)
+    dataa = {}
+    
+    for player in data:
+        dataa[player[0][1]] =  dict(player)
+    #print(dataa)
+    fileName = "json/COTDRanking.json"
+    with open(fileName, 'w') as outfile:
+        json.dump(dataa, outfile)
+    
+    
+#createCOTDRankingLastxCOTD(10)
 
 def updatePlayersProfile(compID):
     #compID is str
