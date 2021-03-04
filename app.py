@@ -120,19 +120,13 @@ def cotdResultsServers(playerID):
     
     return cotdResultsServers
 
-@app.route('/api/COTDRankingsLast/')
-def COTDRankings():
-    
-    COTDRankings = api.COTDRankings()
-    
-    return COTDRankings
-
 @app.route('/api/COTDRankings/')
 def COTDRankings():
     
     COTDRankings = api.COTDRankings()
     
     return COTDRankings
+
 
 
 
