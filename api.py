@@ -361,22 +361,54 @@ def my_max_by_weight(sequence):
 
     return maximum
 
+def SortTheALL(All):
+    
+    newAll = []
+    
+    for element in All:
+        #print(newAll, element)
+        if newAll==[]:
+            newAll += [element]
+        else:
+            i=0
+            #print(element[0])
+            #print(newAll[i][0])
+            while i < len(newAll) and element[0] > newAll[i][0]:
+                i += 1
+
+            if i < len(newAll) and element[0] == newAll[i][0]:
+                while i < len(newAll) and  element[1] < newAll[i][1] and element[0] == newAll[i][0]:
+                    i+=1
+
+            newAll.insert(i, element)
+            
+
+    return newAll
 
 def createCOTDRankingLastxCOTD():
+    
+    fileName = "json/COTDRankingCompleteStep10.json"
+    
+    with open(fileName,'r') as json_file:
+        COTDRankings = json.load(json_file)
+        
+    alldata = COTDRankings
+    alldata["last"] = {}
+    
 
     playerListName = 'json/playerList.json'
     
     with open(playerListName,'r') as json_file:
         playerList = json.load(json_file)
     
-    alldata = {}
+    alldata = {'last':{}}
     I = [10*i for i in range(1,15)]
 
     for i in range(14):
         x = I[i]
         #10% best and worst remove
         toRemove = int(x*0.1)
-        print(toRemove)
+        #print(toRemove)
         
             
         data = []
@@ -403,33 +435,36 @@ def createCOTDRankingLastxCOTD():
                 
                 if len(playerProfile["results"]["cotd"]) >= x:
                     for result in playerProfile["results"]["cotd"][-1:-(x+1):-1]:
-                        rank = result["globalRank"]
 
-                        All += [rank]
-                
-                        totalPlacement += rank
-                        totalPlayers += result["totalPlayer"]
-                    
-                    Min = sorted(All)
-
-                    #print(old)
-                    if playerName == "YannexTM":
-                        print(totalPlacement,Min,round(totalPlacement / (x),2))
-                    for i in range(toRemove):
-                        totalPlacement -= Min[i+1]
-                        totalPlacement -= Min[-(i+1)]
-                    
+                        All += [[result["globalRank"],result["totalPlayer"]]]
                         
-                    #print(Min,Max)
-                    averagePosition = round(totalPlacement / (x-toRemove),2)
-                    if playerName == "YannexTM":
-                        print(totalPlacement,averagePosition)
+
+                    All = SortTheALL(All)
+                    #print(All)
+                    #print(All[0:x])
+                    #add results
+                    #print(All)
+                    for element in All[0:x]:
+                        totalPlacement += element[0]
+                        totalPlayers += element[1]
+                    #print(totalPlacement,totalPlayers)
+                        
+                    #remove for mean
+                    for i in range(toRemove):
+                        #if playerName == "aTTaX.GranaDy":
+                            #print(totalPlacement,totalPlayers)
+                        totalPlacement -= All[i][0] + All[(-i)+(x-1)][0]
+                        totalPlayers -= All[i][1] + All[(-i)+(x-1)][1]
+                        
+                    #print(totalPlacement,totalPlayers)
+                      
+                    averagePosition = round(totalPlacement / (x-(2*toRemove)),3)
                     averagePositionRelative = round((totalPlacement/totalPlayers)*100,3)
                     #playerPoint = ((totalPlacement)/(totalPlayers))*totalNumberOfCOTD
         
                     data += [[('playerName',playerName),("averagePosition", averagePosition),("averagePositionRelative", averagePositionRelative)]]
-        
-                    #print(total," / ", len(playerList) ,"done")
+                    
+                    print(total," / ", len(playerList) ,"done")
         
         data = sorted(data, key=lambda x: x[2][1])
         #print(data)
@@ -438,7 +473,7 @@ def createCOTDRankingLastxCOTD():
         for player in data:
             dataa += [dict(player)]
         
-        alldata[str(I[i])] = dataa
+        alldata["last"][str(I[i])] = dataa
         
         print(x,'finished')
         
@@ -449,6 +484,111 @@ def createCOTDRankingLastxCOTD():
         json.dump(alldata, outfile)
 
 #createCOTDRankingLastxCOTD()
+
+
+
+def createCOTDRankingBestxCOTD():
+    
+    fileName = "json/COTDRankingCompleteStep10.json"
+    
+    with open(fileName,'r') as json_file:
+        COTDRankings = json.load(json_file)
+        
+    alldata = COTDRankings
+    alldata["best"] = {}
+    
+    playerListName = 'json/playerList.json'
+    
+    with open(playerListName,'r') as json_file:
+        playerList = json.load(json_file)
+    
+    
+    I = [10*i for i in range(1,15)]
+
+    for i in range(14):
+        x = I[i]
+        #10% best and worst remove
+        toRemove = int(x*0.1)
+        #print(toRemove)
+        
+        data = []
+        total = 0
+    
+        doneID = []
+        for playerName in playerList:
+            total+=1
+            totalPlacement = 0
+            totalPlayers = 0 
+        
+            playerID = playerList[playerName]
+            All = []
+            
+            if  playerID not in doneID:
+                doneID += [playerID]
+                fileName = 'json/playerProfiles/' + playerID + '.json'
+                
+                
+                with open(fileName,'r') as json_file:
+                    playerProfile = json.load(json_file)    
+                    
+                playerName = playerProfile['playerNames'][-1]['playerName']
+                
+                if len(playerProfile["results"]["cotd"]) >= x:
+                    
+                    for result in playerProfile["results"]["cotd"]:
+
+                        All += [[result["globalRank"],result["totalPlayer"]]]
+                    
+                    #print(All)
+                    #All = sorted(All)
+                    All = SortTheALL(All)
+                    #print(All)
+                    #All = sorted(All, key=lambda x: x[1], reverse=True)
+                    
+                    #print(All)
+                    
+                    for element in All[0:x]:
+                        totalPlacement += element[0]
+                        totalPlayers += element[1]
+                        
+                    for i in range(toRemove):
+                        #if playerName == "aTTaX.GranaDy":
+                            #print(totalPlacement,totalPlayers)
+                        totalPlacement -= All[i][0] + All[(-i)+(x-1)][0]
+                        totalPlayers -= All[i][1] + All[(-i)+(x-1)][1]
+                        
+                    #print(totalPlacement)
+                    #if playerName == "aTTaX.GranaDy":
+                        #print(All,totalPlacement,totalPlayers,x,toRemove,round(totalPlacement / (x-(2*toRemove)),3))
+                        
+                    averagePosition = round(totalPlacement / (x-(2*toRemove)),3)
+                    averagePositionRelative = round((totalPlacement/totalPlayers)*100,3)
+                    #playerPoint = ((totalPlacement)/(totalPlayers))*totalNumberOfCOTD
+                    
+                    data += [[('playerName',playerName),("averagePosition", averagePosition),("averagePositionRelative", averagePositionRelative)]]
+        
+                    print(total," / ", len(playerList) ,"done")
+        
+        data = sorted(data, key=lambda x: x[2][1])
+        #print(data)
+        dataa = []
+
+        for player in data:
+            dataa += [dict(player)]
+        
+        alldata["best"][str(I[i])] = dataa
+        
+        print(x,'finished')
+        
+    
+    #print(dataa)
+    fileName = "json/COTDRankingCompleteStep10.json"
+    with open(fileName, 'w') as outfile:
+        json.dump(alldata, outfile)
+
+#createCOTDRankingBestxCOTD()
+
+
 
 def updatePlayersProfile(compID):
     #compID is str
@@ -905,8 +1045,11 @@ if verifIfOver(compID):
     writeCotdJSONoutput(totdInfo, results)
     updatePlayersProfile(compID)
     sortAlphabeticalOrder()
-    createCOTDRankingLastxCOTD()
+    
     
 else:
     print("not over")
 """
+
+createCOTDRankingLastxCOTD()
+createCOTDRankingBestxCOTD()
