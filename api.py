@@ -347,9 +347,23 @@ def delOpenfromPlayerList():
 delOpenfromPlayerList()
 """
 
+def my_max_by_weight(sequence):
+    if not sequence:
+        raise ValueError('empty sequence')
+
+    maximum = sequence[0]
+
+    for item in sequence:
+        # Compare elements by their weight stored
+        # in their second element.
+        if item[1] > maximum[1]:
+            maximum = item
+
+    return maximum
+
 
 def createCOTDRankingLastxCOTD():
-    #x = 10 test
+
     playerListName = 'json/playerList.json'
     
     with open(playerListName,'r') as json_file:
@@ -360,6 +374,11 @@ def createCOTDRankingLastxCOTD():
 
     for i in range(14):
         x = I[i]
+        #10% best and worst remove
+        toRemove = int(x*0.1)
+        print(toRemove)
+        
+            
         data = []
         total = 0
     
@@ -370,12 +389,13 @@ def createCOTDRankingLastxCOTD():
             totalPlayers = 0 
         
             playerID = playerList[playerName]
+            All = []
             
             if  playerID not in doneID:
                 doneID += [playerID]
                 fileName = 'json/playerProfiles/' + playerID + '.json'
                 
-    
+                
                 with open(fileName,'r') as json_file:
                     playerProfile = json.load(json_file)    
                     
@@ -383,11 +403,23 @@ def createCOTDRankingLastxCOTD():
                 
                 if len(playerProfile["results"]["cotd"]) >= x:
                     for result in playerProfile["results"]["cotd"][-1:-(x+1):-1]:
-                        totalPlacement += result["globalRank"]
-                        totalPlayers += result["totalPlayer"]
+                        rank = result["globalRank"]
 
-            
-                    averagePosition = round(totalPlacement / x,2)
+                        All += [rank]
+                
+                        totalPlacement += rank
+                        totalPlayers += result["totalPlayer"]
+                    
+                    Min = sorted(All)
+
+                    #print(old)
+
+                    for i in range(toRemove):
+                        totalPlacement -= Min[i+1]
+                        totalPlacement -= Min[-(i+1)]
+
+                    #print(Min,Max)
+                    averagePosition = round(totalPlacement / (x-toRemove),2)
                     averagePositionRelative = round((totalPlacement/totalPlayers)*100,3)
                     #playerPoint = ((totalPlacement)/(totalPlayers))*totalNumberOfCOTD
         
@@ -408,11 +440,11 @@ def createCOTDRankingLastxCOTD():
         
     
     #print(dataa)
-    fileName = "json/COTDRankingCompleteStep10.json"
+    fileName = "json/COTDRankingCompleteStep10New.json"
     with open(fileName, 'w') as outfile:
         json.dump(alldata, outfile)
 
-    
+#createCOTDRankingLastxCOTD()
 
 def updatePlayersProfile(compID):
     #compID is str
