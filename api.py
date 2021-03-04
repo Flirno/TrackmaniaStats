@@ -368,7 +368,6 @@ def createCOTDRankingLastxCOTD():
             total+=1
             totalPlacement = 0
             totalPlayers = 0 
-            totalNumberOfCOTD = 0
         
             playerID = playerList[playerName]
             fileName = 'json/playerProfiles/' + playerID + '.json'
@@ -380,15 +379,15 @@ def createCOTDRankingLastxCOTD():
                 for result in playerProfile["results"]["cotd"][-1:-(x+1):-1]:
                     totalPlacement += result["globalRank"]
                     totalPlayers += result["totalPlayer"]
-                    totalNumberOfCOTD += 1
+
             
-                averagePosition = totalPlacement / x
-                averagePositionRelative = (totalPlacement/totalPlayers)*100
+                averagePosition = round(totalPlacement / x,2)
+                averagePositionRelative = round((totalPlacement/totalPlayers)*100,3)
                 #playerPoint = ((totalPlacement)/(totalPlayers))*totalNumberOfCOTD
         
                 data += [[('playerName',playerName),("averagePosition", averagePosition),("averagePositionRelative", averagePositionRelative)]]
         
-                #print(total," / ", len(playerList) ,"done")
+                print(total," / ", len(playerList) ,"done")
         
         data = sorted(data, key=lambda x: x[2][1])
         #print(data)
@@ -407,7 +406,6 @@ def createCOTDRankingLastxCOTD():
     with open(fileName, 'w') as outfile:
         json.dump(alldata, outfile)
    
-    
     
 
 def updatePlayersProfile(compID):
