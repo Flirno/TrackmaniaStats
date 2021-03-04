@@ -413,19 +413,23 @@ def createCOTDRankingLastxCOTD():
                     Min = sorted(All)
 
                     #print(old)
-
+                    if playerName == "YannexTM":
+                        print(totalPlacement,Min,round(totalPlacement / (x),2))
                     for i in range(toRemove):
                         totalPlacement -= Min[i+1]
                         totalPlacement -= Min[-(i+1)]
-
+                    
+                        
                     #print(Min,Max)
                     averagePosition = round(totalPlacement / (x-toRemove),2)
+                    if playerName == "YannexTM":
+                        print(totalPlacement,averagePosition)
                     averagePositionRelative = round((totalPlacement/totalPlayers)*100,3)
                     #playerPoint = ((totalPlacement)/(totalPlayers))*totalNumberOfCOTD
         
                     data += [[('playerName',playerName),("averagePosition", averagePosition),("averagePositionRelative", averagePositionRelative)]]
         
-                    print(total," / ", len(playerList) ,"done")
+                    #print(total," / ", len(playerList) ,"done")
         
         data = sorted(data, key=lambda x: x[2][1])
         #print(data)
@@ -440,7 +444,7 @@ def createCOTDRankingLastxCOTD():
         
     
     #print(dataa)
-    fileName = "json/COTDRankingCompleteStep10New.json"
+    fileName = "json/COTDRankingCompleteStep10.json"
     with open(fileName, 'w') as outfile:
         json.dump(alldata, outfile)
 
