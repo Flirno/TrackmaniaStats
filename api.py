@@ -1049,8 +1049,8 @@ if verifIfOver(compID):
     
 else:
     print("not over")
-"""
-"""
+
+
 createCOTDRankingLastxCOTD()
 createCOTDRankingBestxCOTD()
 """
