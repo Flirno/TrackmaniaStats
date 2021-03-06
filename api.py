@@ -21,11 +21,11 @@ from os.path import isfile, join
 #------------------------------------------FUNCTIONS---------------------------------------------------#
 
 
-
 def getJsonFromURL(url):
-    content = urllib.request.urlopen(url).read().decode()    
-    page = json.loads(content)
-    
+    req = urllib.request.Request(url) 
+    req.add_header('User-Agent', 'Flirno COTD')
+    resp = urllib.request.urlopen(req).read().decode()  
+    page = json.loads(resp)
     return(page)
 
 
@@ -1034,15 +1034,15 @@ addOpenTrackmaniaPlayers()
 sortAlphabeticalOrder()
 """
 
-"""
+
 compID = getLatestFinishedcotdID()
 #compID = "246"
 print(compID)
 
 if verifIfOver(compID):
     print("over")
-    totdInfo, results = getCOMPresults(compID)
-    writeCotdJSONoutput(totdInfo, results)
+    #totdInfo, results = getCOMPresults(compID)
+    #writeCotdJSONoutput(totdInfo, results)
     updatePlayersProfile(compID)
     sortAlphabeticalOrder()
     
@@ -1050,7 +1050,5 @@ if verifIfOver(compID):
 else:
     print("not over")
 
-
 createCOTDRankingLastxCOTD()
 createCOTDRankingBestxCOTD()
-"""
