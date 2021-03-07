@@ -1041,12 +1041,11 @@ print(compID)
 
 if verifIfOver(compID):
     print("over")
-    #totdInfo, results = getCOMPresults(compID)
-    #writeCotdJSONoutput(totdInfo, results)
+    totdInfo, results = getCOMPresults(compID)
+    writeCotdJSONoutput(totdInfo, results)
     updatePlayersProfile(compID)
     sortAlphabeticalOrder()
-    
-    
+   
 else:
     print("not over")
 
