@@ -23,7 +23,7 @@ from os.path import isfile, join
 
 def getJsonFromURL(url):
     req = urllib.request.Request(url) 
-    req.add_header('User-Agent', 'Flirno COTD')
+    req.add_header('User-Agent', 'Flirno COTD results of the day from python urllib')
     resp = urllib.request.urlopen(req).read().decode()  
     page = json.loads(resp)
     return(page)
@@ -1034,7 +1034,7 @@ addOpenTrackmaniaPlayers()
 sortAlphabeticalOrder()
 """
 
-
+"""
 compID = getLatestFinishedcotdID()
 #compID = "246"
 print(compID)
@@ -1051,3 +1051,4 @@ else:
 
 createCOTDRankingLastxCOTD()
 createCOTDRankingBestxCOTD()
+"""
