@@ -1051,5 +1051,4 @@ else:
 
 createCOTDRankingLastxCOTD()
 createCOTDRankingBestxCOTD()
-
 """
