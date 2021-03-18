@@ -1034,7 +1034,7 @@ addOpenTrackmaniaPlayers()
 sortAlphabeticalOrder()
 """
 
-"""
+
 compID = getLatestFinishedcotdID()
 #compID = "246"
 print(compID)
@@ -1051,4 +1051,4 @@ else:
 
 createCOTDRankingLastxCOTD()
 createCOTDRankingBestxCOTD()
-"""
+
