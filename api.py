@@ -1035,20 +1035,20 @@ sortAlphabeticalOrder()
 """
 
 """
-compID = getLatestFinishedcotdID()
-#compID = "246"
+#compID = getLatestFinishedcotdID()
+compID = "289"
 print(compID)
 
 if verifIfOver(compID):
     print("over")
     totdInfo, results = getCOMPresults(compID)
     writeCotdJSONoutput(totdInfo, results)
-    #updatePlayersProfile(compID)
-    #sortAlphabeticalOrder()
+    updatePlayersProfile(compID)
+    sortAlphabeticalOrder()
    
 else:
     print("not over")
 
-#createCOTDRankingLastxCOTD()
-#createCOTDRankingBestxCOTD()
+createCOTDRankingLastxCOTD()
+createCOTDRankingBestxCOTD()
 """
