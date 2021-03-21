@@ -1035,8 +1035,8 @@ sortAlphabeticalOrder()
 """
 
 """
-#compID = getLatestFinishedcotdID()
-compID = "289"
+compID = getLatestFinishedcotdID()
+#compID = "289"
 print(compID)
 
 if verifIfOver(compID):
