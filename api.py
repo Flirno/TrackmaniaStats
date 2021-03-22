@@ -464,7 +464,7 @@ def createCOTDRankingLastxCOTD():
         
                     data += [[('playerName',playerName),("averagePosition", averagePosition),("averagePositionRelative", averagePositionRelative)]]
                     
-                    print(total," / ", len(playerList) ,"done")
+                    #print(total," / ", len(playerList) ,"done")
         
         data = sorted(data, key=lambda x: x[2][1])
         #print(data)
@@ -567,7 +567,7 @@ def createCOTDRankingBestxCOTD():
                     
                     data += [[('playerName',playerName),("averagePosition", averagePosition),("averagePositionRelative", averagePositionRelative)]]
         
-                    print(total," / ", len(playerList) ,"done")
+                    #print(total," / ", len(playerList) ,"done")
         
         data = sorted(data, key=lambda x: x[2][1])
         #print(data)
@@ -824,6 +824,23 @@ def writeCotdJSONoutput(totdInfo,playersList):
     with open('json/cotd/cotd-'+ str(totdInfo[0]) + '.json', 'w') as outfile:
         json.dump(data, outfile)
         
+def checkNoEmptyPseudo(compID):
+    
+    
+    fileName = 'json/cotd/cotd-'+ compID + '.json'
+
+    with open(fileName,'r') as json_file:
+       compResults = json.load(json_file)
+    #print(compResults)
+    players = compResults['players']
+    #print(len(compResults['players']))
+    for i in range(len(players)):
+        print(players[i]['playerName'])
+        if players[i]['playerName'] == "":
+            string = "empty pseudo on position "+ str(players[i]['globalRank'])
+            return(string)
+    
+    return(True)
 
 #--------------------------------------------for web use----------------------------------------------
 
@@ -1043,12 +1060,15 @@ if verifIfOver(compID):
     print("over")
     totdInfo, results = getCOMPresults(compID)
     writeCotdJSONoutput(totdInfo, results)
-    updatePlayersProfile(compID)
-    sortAlphabeticalOrder()
+    print(checkNoEmptyPseudo(compID))
+    if checkNoEmptyPseudo(compID)==True:
+        updatePlayersProfile(compID)
+        sortAlphabeticalOrder()
+        createCOTDRankingLastxCOTD()
+        createCOTDRankingBestxCOTD()
    
 else:
     print("not over")
 
-createCOTDRankingLastxCOTD()
-createCOTDRankingBestxCOTD()
 """
+
