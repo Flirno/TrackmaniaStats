@@ -1052,7 +1052,7 @@ addOpenTrackmaniaPlayers()
 sortAlphabeticalOrder()
 """
 
-"""
+
 compID = getLatestFinishedcotdID()
 #compID = "289"
 print(compID)
@@ -1071,5 +1071,5 @@ if verifIfOver(compID):
 else:
     print("not over")
 
-"""
+
 
