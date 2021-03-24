@@ -141,6 +141,7 @@ def getLatestFinishedcotdID():
             print(compID,"check")
             if verifIfOver(str(compID)):
                 found = True
+                print(cotd.get("competitions")[i].get("name"))
                 print("Over")
             else:
                 pass
@@ -835,7 +836,7 @@ def checkNoEmptyPseudo(compID):
     players = compResults['players']
     #print(len(compResults['players']))
     for i in range(len(players)):
-        print(players[i]['playerName'])
+        #print(players[i]['playerName'])
         if players[i]['playerName'] == "":
             string = "empty pseudo on position "+ str(players[i]['globalRank'])
             return(string)
@@ -1051,7 +1052,7 @@ addOpenTrackmaniaPlayers()
 sortAlphabeticalOrder()
 """
 
-"""
+
 compID = getLatestFinishedcotdID()
 #compID = "289"
 print(compID)
@@ -1070,5 +1071,5 @@ if verifIfOver(compID):
 else:
     print("not over")
 
-"""
+
 
