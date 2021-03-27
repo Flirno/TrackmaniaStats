@@ -131,26 +131,35 @@ def getLatestFinishedcotdID():
     #print("COTD over")
     i=0
     found =  False
-    while cotd.get("competitions")[i].get("players") == 0 or found == False:
+    COTD = []
+    fileName = ''
         
-        compID = cotd.get("competitions")[i].get("id")
+    while cotd.get("competitions")[i].get("players") == 0 or found == False or not(path.exists(fileName)):
+        compID = str(cotd.get("competitions")[i].get("id"))
+        fileName = 'json/cotd/cotd-'+ compID + '.json'
         checkcotd = getJsonFromURL("https://trackmania.io/api/comp/"+ str(compID) )
+        
         if checkcotd.get('rounds')[0].get('matches') == []:
             pass
         else:
             print(compID,"check")
             if verifIfOver(str(compID)):
-                found = True
-                print(cotd.get("competitions")[i].get("name"))
+                #print(cotd.get("competitions")[i].get("name"))
                 print("Over")
             else:
                 pass
-            
+        if path.exists(fileName):
+            print("cotd already added")
+            found = True
+        else:
+            COTD += [compID]
         #time.sleep(0.1)
         #print(compID)
         i+=1
     
-    return str(compID)
+    COTD = COTD[::-1]
+    
+    return COTD
 
 
 def verifIfOver(compID):
@@ -161,6 +170,11 @@ def verifIfOver(compID):
             return False
         else:
             pass
+    fileName = 'json/cotd/cotd-'+ compID + '.json'
+    
+    if path.exists(fileName):
+        return False
+    
     return True
     
     
@@ -1051,24 +1065,30 @@ getOpenTrackmaniaPlayers()
 addOpenTrackmaniaPlayers()
 sortAlphabeticalOrder()
 """
-"""
 
-compID = getLatestFinishedcotdID()
-#compID = "289"
-print(compID)
+if __name__ == "__main__":
+    COTD = getLatestFinishedcotdID()
+    #compID = "299"
+    print(COTD)
+    good=0
 
-if verifIfOver(compID):
-    print("over")
-    totdInfo, results = getCOMPresults(compID)
-    writeCotdJSONoutput(totdInfo, results)
-    print(checkNoEmptyPseudo(compID))
-    if checkNoEmptyPseudo(compID)==True:
-        updatePlayersProfile(compID)
-        sortAlphabeticalOrder()
-        createCOTDRankingLastxCOTD()
-        createCOTDRankingBestxCOTD()
-   
-else:
-    print("not over")
+    for compID in COTD:
+        if verifIfOver(compID):
+            #print("over")
+            totdInfo, results = getCOMPresults(compID)
+            writeCotdJSONoutput(totdInfo, results)
+            print(checkNoEmptyPseudo(compID))
+            if checkNoEmptyPseudo(compID)==True:
+                good+=1
+           
+            else:
+                print("not over")
+        
+    if good == len(COTD):
+         updatePlayersProfile(compID)
+         sortAlphabeticalOrder()
+         createCOTDRankingLastxCOTD()
+         createCOTDRankingBestxCOTD()
+               
 
-"""
+
