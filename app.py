@@ -151,8 +151,8 @@ def cotd(compID):
 
 @app.route('/api/UpdateProduction/')
 def UpdateProduction():
-    api.UpdateProduction()
-    return ("done")
+    COTD = api.UpdateProduction()
+    return (COTD, "added")
 
 
 """

@@ -1081,6 +1081,8 @@ def UpdateProduction():
             sortAlphabeticalOrder()
             createCOTDRankingLastxCOTD()
             createCOTDRankingBestxCOTD()
+            
+    return(COTD)
 
     
 #------------------------------------------CALLS------------------------------------------------------#
