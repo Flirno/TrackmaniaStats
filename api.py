@@ -479,7 +479,7 @@ def createCOTDRankingLastxCOTD():
         
                     data += [[('playerName',playerName),("averagePosition", averagePosition),("averagePositionRelative", averagePositionRelative)]]
                     
-                    #print(total," / ", len(playerList) ,"done")
+                    print(total," / ", len(playerList) ,"done")
         
         data = sorted(data, key=lambda x: x[2][1])
         #print(data)
@@ -582,7 +582,7 @@ def createCOTDRankingBestxCOTD():
                     
                     data += [[('playerName',playerName),("averagePosition", averagePosition),("averagePositionRelative", averagePositionRelative)]]
         
-                    #print(total," / ", len(playerList) ,"done")
+                    print(total," / ", len(playerList) ,"done")
         
         data = sorted(data, key=lambda x: x[2][1])
         #print(data)
@@ -1056,7 +1056,33 @@ def testUpload():
     print("test")
     uploadFiletoPath("text",'json/test.txt')
     print("here")
-"""   
+"""  
+
+def UpdateProduction():
+    COTD = getLatestFinishedcotdID()
+    #compID = "299"
+    print(COTD)
+    good=0
+    if COTD != []:
+        for compID in COTD:
+            if verifIfOver(compID):
+                #print("over")
+                totdInfo, results = getCOMPresults(compID)
+                writeCotdJSONoutput(totdInfo, results)
+                print(checkNoEmptyPseudo(compID))
+                if checkNoEmptyPseudo(compID)==True:
+                    good+=1
+           
+                else:
+                    print("not over")
+        
+        if good == len(COTD):
+            updatePlayersProfile(compID)
+            sortAlphabeticalOrder()
+            createCOTDRankingLastxCOTD()
+            createCOTDRankingBestxCOTD()
+
+    
 #------------------------------------------CALLS------------------------------------------------------#
 
 
@@ -1072,23 +1098,24 @@ if __name__ == "__main__":
     print(COTD)
     good=0
 
-    for compID in COTD:
-        if verifIfOver(compID):
-            #print("over")
-            totdInfo, results = getCOMPresults(compID)
-            writeCotdJSONoutput(totdInfo, results)
-            print(checkNoEmptyPseudo(compID))
-            if checkNoEmptyPseudo(compID)==True:
-                good+=1
+    if COTD != []:
+        for compID in COTD:
+            if verifIfOver(compID):
+                #print("over")
+                totdInfo, results = getCOMPresults(compID)
+                writeCotdJSONoutput(totdInfo, results)
+                print(checkNoEmptyPseudo(compID))
+                if checkNoEmptyPseudo(compID)==True:
+                    good+=1
            
-            else:
-                print("not over")
+                else:
+                    print("not over")
         
-    if good == len(COTD):
-         updatePlayersProfile(compID)
-         sortAlphabeticalOrder()
-         createCOTDRankingLastxCOTD()
-         createCOTDRankingBestxCOTD()
+        if good == len(COTD):
+            updatePlayersProfile(compID)
+            sortAlphabeticalOrder()
+            createCOTDRankingLastxCOTD()
+            createCOTDRankingBestxCOTD()
 
 
 

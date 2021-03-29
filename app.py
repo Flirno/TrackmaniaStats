@@ -148,6 +148,13 @@ def cotd(compID):
 
 #---------------------ADMIN FOR DATABASE UPDATE-----------------------#
 
+
+@app.route('/api/UpdateProduction/')
+def UpdateProduction():
+    api.UpdateProduction()
+
+
+
 """
 
 @app.route('/api/createLatestcotdJSON/')
