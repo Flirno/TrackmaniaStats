@@ -152,7 +152,7 @@ def cotd(compID):
 @app.route('/api/UpdateProduction/')
 def UpdateProduction():
     api.UpdateProduction()
-
+    return ("done")
 
 
 """
@@ -180,9 +180,7 @@ def testUpload():
 
 """
     
-    
-    
-    
+
     
 if __name__ == "__main__":
     app.run(debug=True)
