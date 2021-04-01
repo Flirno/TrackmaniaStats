@@ -148,11 +148,11 @@ def getLatestFinishedcotdID():
                 print("Over")
             else:
                 pass
-        if path.exists(fileName):
-            print("cotd already added")
-            found = True
-        else:
-            COTD += [compID]
+            if path.exists(fileName):
+                print("cotd already added")
+                found = True
+            else:
+                COTD += [compID]
         #time.sleep(0.1)
         #print(compID)
         i+=1
