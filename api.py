@@ -123,8 +123,6 @@ def getAllCOTDcompID():
     return (COTDcompIDList)
 
 
-
-
 def getLatestFinishedcotdID():
     cotd = getJsonFromURL("https://trackmania.io/api/cotd/0")
     
@@ -798,8 +796,6 @@ def updatePlayersProfile(compID):
     
     with open(newNamePlayersDaysPath, 'w') as outfile:
         json.dump(newNamePlayersDays, outfile)
-    
-    
     
 
 def sortAlphabeticalOrder():
