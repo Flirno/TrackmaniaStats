@@ -17,6 +17,7 @@ from datetime import date
 from os import listdir
 from os.path import isfile, join
 #from github import Github
+import csv
 
 #------------------------------------------FUNCTIONS---------------------------------------------------#
 
@@ -1080,6 +1081,37 @@ def UpdateProduction():
             
     return(COTD)
 
+
+def getCSVLatest():
+    cotd = getJsonFromURL("https://trackmania.io/api/cotd/0")
+    idCOTD = cotd["competitions"][0]["id"]
+    dateCOTD = cotd["competitions"][0]["name"][15:]
+    
+    url = "https://trackmania.io/api/comp/" + str(idCOTD)
+    page = getJsonFromURL(url)
+    
+    if page["rounds"][0]["matches"][0]["completed"] != True:
+        return("Match of server 1 of COTD of "+ dateCOTD + " is not over yet...")
+    else:
+        div1ID = page["rounds"][0]["matches"][0]["id"]
+        resultsURL = "https://trackmania.io/api/comp/"+str(idCOTD)+"/results/"+str(div1ID)+"/0"
+        results = getJsonFromURL(resultsURL)
+        
+        Players = []
+        i=0
+        while results["results"]!= []:
+            for player in results["results"]:
+                Players += [player["displayname"]]
+                
+            i += 1
+            resultsURL = "https://trackmania.io/api/comp/"+str(idCOTD)+"/results/"+str(div1ID)+"/"+str(i)
+            results = getJsonFromURL(resultsURL)
+            print("doing")
+            time.sleep(1)
+            
+        return(Players)
+    
+
     
 #------------------------------------------CALLS------------------------------------------------------#
 
@@ -1114,6 +1146,5 @@ if __name__ == "__main__":
             sortAlphabeticalOrder()
             createCOTDRankingLastxCOTD()
             createCOTDRankingBestxCOTD()
-
 
 

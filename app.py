@@ -144,6 +144,15 @@ def cotd(compID):
 
         return cotdJSON
 
+@app.route('/api/getCSVLatest')
+def getCSVLatest():
+    Players = api.getCSVLatest()
+    
+    strPlayers = ""
+    for player in Players:
+        strPlayers += " "+strPlayers+","
+        
+    return(strPlayers)
 
 
 #---------------------ADMIN FOR DATABASE UPDATE-----------------------#
