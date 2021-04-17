@@ -478,7 +478,7 @@ def createCOTDRankingLastxCOTD():
         
                     data += [[('playerName',playerName),("averagePosition", averagePosition),("averagePositionRelative", averagePositionRelative)]]
                     
-                    print(total," / ", len(playerList) ,"done")
+                    #print(total," / ", len(playerList) ,"done")
         
         data = sorted(data, key=lambda x: x[2][1])
         #print(data)
@@ -581,7 +581,7 @@ def createCOTDRankingBestxCOTD():
                     
                     data += [[('playerName',playerName),("averagePosition", averagePosition),("averagePositionRelative", averagePositionRelative)]]
         
-                    print(total," / ", len(playerList) ,"done")
+                    #print(total," / ", len(playerList) ,"done")
         
         data = sorted(data, key=lambda x: x[2][1])
         #print(data)
@@ -1127,9 +1127,15 @@ if __name__ == "__main__":
     #compID = "299"
     print(COTD)
     good=0
-
+    from pushbullet import Pushbullet
+    pb = Pushbullet("o.qSTr5rbugt3nrNvlIXonAFXTOPLi7z8F")
+    dev = pb.get_device('Samsung SM-A515F')
+    push = dev.push_note("cotd check...", "checking for new cotd...")
+    time.sleep(0.5)
     if COTD != []:
         for compID in COTD:
+            push = dev.push_note("trying to fetch COTD "+str(compID)+" .", "DO NOT TURN OFF THE RASPBERRY PI!")
+            time.sleep(0.5)
             if verifIfOver(compID):
                 #print("over")
                 totdInfo, results = getCOMPresults(compID)
@@ -1139,12 +1145,18 @@ if __name__ == "__main__":
                     good+=1
            
                 else:
-                    print("not over")
+                    push = dev.push_note("ERROR with the nicknames","")
+                    print("empty nickname")
+                    time.sleep(0.5)
         
         if good == len(COTD):
+            push = dev.push_note("COTD fetched succefully, now updating profiles...","Profiles are now being updated...")
             updatePlayersProfile(compID)
             sortAlphabeticalOrder()
             createCOTDRankingLastxCOTD()
             createCOTDRankingBestxCOTD()
-
-
+            push = dev.push_note("It's DONE!!","tmstats has been updated properly")
+        else:
+            push = dev.push_note("DENIED!","COTD is not over yet")
+    else:
+        push = dev.push_note("no new cotd found","no new COTD")
