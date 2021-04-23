@@ -854,6 +854,43 @@ def checkNoEmptyPseudo(compID):
     
     return(True)
 
+
+def removeLastCOTD(compID):
+    
+    fileName = 'json/cotd/cotd-'+ compID + '.json'
+
+    with open(fileName,'r') as json_file:
+       compResults = json.load(json_file)
+     
+    dateCOTD = compResults["date"]
+    print(dateCOTD)
+    for player in compResults["players"]:
+        playerID  = player["playerID"]
+        fileNameProfile = 'json/playerProfiles/'+ playerID + '.json'
+        print("here")
+        if path.exists(fileNameProfile):
+    
+            with open(fileNameProfile,'r') as json_file:
+                profile = json.load(json_file)
+        
+        
+            if profile["results"]["cotd"][-1]["date"] == dateCOTD:
+            
+                newCOTDdataProfile = profile["results"]["cotd"][:-1]
+            
+                data = {}
+                data["playerID"] = profile["playerID"]
+                data["playerNames"] = profile["playerNames"]
+                data['results'] = {}
+                data['results']['cotd'] = []
+                data["results"]["cotd"]= newCOTDdataProfile
+                #print(newCOTDdataProfile)
+            
+                with open(fileNameProfile,'w') as outfile:
+                    json.dump(data, outfile)
+            #time.sleep(5)
+    
+    
 #--------------------------------------------for web use----------------------------------------------
 
 
@@ -1122,6 +1159,8 @@ addOpenTrackmaniaPlayers()
 sortAlphabeticalOrder()
 """
 
+"""
+
 if __name__ == "__main__":
     COTD = getLatestFinishedcotdID()
     #compID = "299"
@@ -1160,3 +1199,17 @@ if __name__ == "__main__":
             push = dev.push_note("DENIED!","COTD is not over yet")
     else:
         push = dev.push_note("no new cotd found","no new COTD")
+
+"""
+
+
+#DEGUG MODE
+
+#remove last added cotd to all players that particpated in 
+
+
+# removeLastCOTD('340')
+updatePlayersProfile('340')
+sortAlphabeticalOrder()
+createCOTDRankingLastxCOTD()
+createCOTDRankingBestxCOTD()
