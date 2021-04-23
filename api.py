@@ -1190,7 +1190,8 @@ if __name__ == "__main__":
         
         if good == len(COTD):
             push = dev.push_note("COTD fetched succefully, now updating profiles...","Profiles are now being updated...")
-            updatePlayersProfile(compID)
+            for compID in COTD:
+                updatePlayersProfile(compID)
             sortAlphabeticalOrder()
             createCOTDRankingLastxCOTD()
             createCOTDRankingBestxCOTD()
