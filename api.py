@@ -1159,7 +1159,7 @@ addOpenTrackmaniaPlayers()
 sortAlphabeticalOrder()
 """
 
-"""
+
 
 if __name__ == "__main__":
     COTD = getLatestFinishedcotdID()
@@ -1200,9 +1200,9 @@ if __name__ == "__main__":
     else:
         push = dev.push_note("no new cotd found","no new COTD")
 
+
+
 """
-
-
 #DEGUG MODE
 
 #remove last added cotd to all players that particpated in 
@@ -1213,3 +1213,4 @@ updatePlayersProfile('340')
 sortAlphabeticalOrder()
 createCOTDRankingLastxCOTD()
 createCOTDRankingBestxCOTD()
+"""
