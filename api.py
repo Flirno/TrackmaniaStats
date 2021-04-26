@@ -192,8 +192,8 @@ def addToPlayerList(player):
     if playerName not in playerProfile:
         print("new name in playerList", player.get("playerName").lower())
         #As we know this player already has a profile, we'll keep previous Name and store same id for 2 different name, this will be useful to search a player if we only know their pseudo from a long time ago
-        print(player.get("playerID"))
-        print("Saving new name in playerList")
+        #print(player.get("playerID"))
+        #print("Saving new name in playerList")
         playerProfile[playerName] = player.get("playerID")
                 
         with open(playerListName, 'w') as outfile:
