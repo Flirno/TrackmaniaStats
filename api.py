@@ -1166,14 +1166,14 @@ if __name__ == "__main__":
     #compID = "299"
     print(COTD)
     good=0
-    from pushbullet import Pushbullet
-    pb = Pushbullet("o.qSTr5rbugt3nrNvlIXonAFXTOPLi7z8F")
-    dev = pb.get_device('Samsung SM-A515F')
-    push = dev.push_note("cotd check...", "checking for new cotd...")
+    # from pushbullet import Pushbullet
+    # pb = Pushbullet("o.qSTr5rbugt3nrNvlIXonAFXTOPLi7z8F")
+    # dev = pb.get_device('Samsung SM-A515F')
+    # push = dev.push_note("cotd check...", "checking for new cotd...")
     time.sleep(0.5)
     if COTD != []:
         for compID in COTD:
-            push = dev.push_note("trying to fetch COTD "+str(compID)+" .", "DO NOT TURN OFF THE RASPBERRY PI!")
+            # push = dev.push_note("trying to fetch COTD "+str(compID)+" .", "DO NOT TURN OFF THE RASPBERRY PI!")
             time.sleep(0.5)
             if verifIfOver(compID):
                 #print("over")
@@ -1184,22 +1184,22 @@ if __name__ == "__main__":
                     good+=1
            
                 else:
-                    push = dev.push_note("ERROR with the nicknames","")
+                    # push = dev.push_note("ERROR with the nicknames","")
                     print("empty nickname")
                     time.sleep(0.5)
         
         if good == len(COTD):
-            push = dev.push_note("COTD fetched succefully, now updating profiles...","Profiles are now being updated...")
+            # push = dev.push_note("COTD fetched succefully, now updating profiles...","Profiles are now being updated...")
             for compID in COTD:
                 updatePlayersProfile(compID)
             sortAlphabeticalOrder()
             createCOTDRankingLastxCOTD()
             createCOTDRankingBestxCOTD()
-            push = dev.push_note("It's DONE!!","tmstats has been updated properly")
-        else:
-            push = dev.push_note("DENIED!","COTD is not over yet")
-    else:
-        push = dev.push_note("no new cotd found","no new COTD")
+            # push = dev.push_note("It's DONE!!","tmstats has been updated properly")
+        # else:
+            # push = dev.push_note("DENIED!","COTD is not over yet")
+    # else:
+        # push = dev.push_note("no new cotd found","no new COTD")
 
 
 
